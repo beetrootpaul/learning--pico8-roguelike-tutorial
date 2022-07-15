@@ -32,6 +32,15 @@ local utils = {
         return print(text, 0, y_to_print_outside_screen)
     end,
     screen_edge_length = 128,
+    screen_edge_tiles = 16,
+    sprites = {
+        player = {
+            sprite_1 = 1,
+            sprite_2 = 2,
+            sprite_3 = 3,
+            sprite_4 = 4,
+        },
+    },
     text_height_px = text_height_px,
     tile_edge_length = 8,
     trim = function(text)
