@@ -20,37 +20,40 @@ function new_animation(params)
     }
 end
 
-local player = {
-    x_tile = 3,
-    y_tile = 5,
-    walk_animation = new_animation({
-        step_length_frames = 8,
+function new_player(params)
+    local x_tile = params.x_tile
+    local y_tile = params.y_tile
+
+    local walk_animation = new_animation({
+        step_length_frames = 10,
         sprites = {
             u.sprites.player.sprite_1,
             u.sprites.player.sprite_2,
             u.sprites.player.sprite_3,
             u.sprites.player.sprite_4,
         },
-    }),
-}
+    })
 
-function _init()
+    return {
+        x_tile = x_tile,
+        y_tile = y_tile,
+        walk_animation = walk_animation,
+    }
 end
+
+local player = new_player({
+    x_tile = 3,
+    y_tile = 5,
+})
 
 function _update60()
     d:update()
     player.walk_animation.advance_1_frame()
-    if btnp(u.buttons.l) then
-        player.x_tile = player.x_tile - 1
-    end
-    if btnp(u.buttons.r) then
-        player.x_tile = player.x_tile + 1
-    end
-    if btnp(u.buttons.u) then
-        player.y_tile = player.y_tile - 1
-    end
-    if btnp(u.buttons.d) then
-        player.y_tile = player.y_tile + 1
+    for button, direction in pairs(u.buttons_to_directions) do
+        if btnp(button) then
+            player.x_tile = player.x_tile + direction.x
+            player.y_tile = player.y_tile + direction.y
+        end
     end
 end
 
@@ -65,3 +68,5 @@ function _draw()
     pal()
     d:draw()
 end
+
+-- TODO: move tile-based, but animated linear between tiles (offset x/y follows x/y in its separate update function)

@@ -1,13 +1,20 @@
+local buttons = {
+    l = 0,
+    r = 1,
+    u = 2,
+    d = 3,
+    o = 4,
+    x = 5,
+}
 local text_height_px = 5
 
 local utils = {
-    buttons = {
-        l = 0,
-        r = 1,
-        u = 2,
-        d = 3,
-        o = 4,
-        x = 5,
+    buttons = buttons,
+    buttons_to_directions = {
+        [buttons.l] = { x = -1, y = 0 },
+        [buttons.r] = { x = 1, y = 0 },
+        [buttons.u] = { x = 0, y = -1 },
+        [buttons.d] = { x = 0, y = 1 },
     },
     colors = {
         black = 0,
