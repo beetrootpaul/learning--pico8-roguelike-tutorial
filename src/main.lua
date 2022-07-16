@@ -83,10 +83,26 @@ end
 
 -- TODO: move tile-based, but animated linear between tiles (offset x/y follows x/y in its separate update function)
 -- TODO: wall bump with use of the offset movement logic
+
 -- TODO: non-walkable: door, chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
 -- TODO: can-interact-with flag: stairs, door, chest big/small closed, vase 1&2, stone tablet
 -- TODO: interaction: vase -> no vase
 -- TODO: interaction: door -> no door
 -- TODO: interaction: stone tablet -> (nothing yet)
 -- TODO: interaction: chest closed -> chest open
+
 -- TODO: next button 1-slot buffer to be able to move again during movement animation
+
+-- TODO: SFX for walking
+-- TODO: SFX for door open
+-- TODO: SFX for chest open
+-- TODO: SFX for chest open, but no space in inventory
+-- TODO: SFX for vase break
+
+-- TODO: function to draw a window with border with text inside, clipped to not overflow
+-- TODO: show text window on stone tablet bump
+-- TODO: window size fits text width; text as an array of lines
+-- TODO: window appears and disappear in animated way
+-- TODO: window disappear on X press
+-- TODO: X animated (`SIN(TIME())` might be helpful)
+-- TODO: multiple stone tablets with their texts (maybe use last sprite flags as binary number of text?)

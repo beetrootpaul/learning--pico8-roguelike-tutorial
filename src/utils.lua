@@ -7,6 +7,7 @@ local buttons = {
     x = 5,
 }
 local text_height_px = 5
+local text_width_px = 3
 
 local utils = {
     buttons = buttons,
@@ -38,8 +39,12 @@ local utils = {
         non_walkable = 0,
     },
     measure_text_width = function(text)
-        local y_to_print_outside_screen = -text_height_px
-        return print(text, 0, y_to_print_outside_screen)
+        -- smart implementation, which (probably) takes custom fonts into account:
+        --local y_to_print_outside_screen = -text_height_px
+        --return print(text, 0, y_to_print_outside_screen)
+
+        -- good enough simple implementation:
+        return #text * (text_width_px + 1)
     end,
     screen_edge_length = 128,
     screen_edge_tiles = 16,
