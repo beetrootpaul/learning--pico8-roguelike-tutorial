@@ -1,7 +1,7 @@
 local player = {
     x = 3,
     y = 5,
-    animation_cycle_frames = 120,
+    animation_cycle_frames = 32,
     animation_frame_counter = 0,
     animation_sprites = {
         u.sprites.player.sprite_1,
