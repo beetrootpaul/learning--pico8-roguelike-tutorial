@@ -21,8 +21,7 @@ function new_animation(params)
 end
 
 function new_player(params)
-    local x_tile = params.x_tile
-    local y_tile = params.y_tile
+    local x_tile, y_tile = params.x_tile, params.y_tile
 
     local facing_right = true
     local walk_animation = new_animation({
@@ -44,8 +43,8 @@ function new_player(params)
 end
 
 local player = new_player({
-    x_tile = 3,
-    y_tile = 5,
+    x_tile = 1,
+    y_tile = 2,
 })
 
 function _update60()
@@ -79,3 +78,12 @@ function _draw()
 end
 
 -- TODO: move tile-based, but animated linear between tiles (offset x/y follows x/y in its separate update function)
+-- TODO: walls non-walkable
+-- TODO: wall bump with use of the offset movement logic
+-- TODO: non-walkable: door, chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
+-- TODO: can-interact-with flag: stairs, door, chest big/small closed, vase 1&2, stone tablet
+-- TODO: interaction: vase -> no vase
+-- TODO: interaction: door -> no door
+-- TODO: interaction: stone tablet -> (nothing yet)
+-- TODO: interaction: chest closed -> chest open
+-- TODO: next button 1-slot buffer to be able to move again during movement animation
