@@ -24,6 +24,7 @@ function new_player(params)
     local x_tile = params.x_tile
     local y_tile = params.y_tile
 
+    local facing_right = true
     local walk_animation = new_animation({
         step_length_frames = 10,
         sprites = {
@@ -37,6 +38,7 @@ function new_player(params)
     return {
         x_tile = x_tile,
         y_tile = y_tile,
+        facing_right = facing_right,
         walk_animation = walk_animation,
     }
 end
@@ -53,6 +55,11 @@ function _update60()
         if btnp(button) then
             player.x_tile = player.x_tile + direction.x
             player.y_tile = player.y_tile + direction.y
+            if direction.x > 0 then
+                player.facing_right = true
+            elseif direction.x < 0 then
+                player.facing_right = false
+            end
         end
     end
 end
@@ -64,7 +71,9 @@ function _draw()
     pal(u.colors.light_grey, u.colors.yellow)
     spr(player.walk_animation.current_sprite(),
         player.x_tile * u.tile_edge_length,
-        player.y_tile * u.tile_edge_length)
+        player.y_tile * u.tile_edge_length,
+        1, 1,
+        not player.facing_right)
     pal()
     d:draw()
 end
