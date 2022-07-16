@@ -52,12 +52,16 @@ function _update60()
     player.walk_animation.advance_1_frame()
     for button, direction in pairs(u.buttons_to_directions) do
         if btnp(button) then
-            player.x_tile = player.x_tile + direction.x
-            player.y_tile = player.y_tile + direction.y
-            if direction.x > 0 then
-                player.facing_right = true
-            elseif direction.x < 0 then
-                player.facing_right = false
+            local next_x, next_y = player.x_tile + direction.x, player.y_tile + direction.y
+            local tile = mget(next_x, next_y)
+            if not fget(tile, u.flags.non_walkable) then
+                player.x_tile = player.x_tile + direction.x
+                player.y_tile = player.y_tile + direction.y
+                if direction.x > 0 then
+                    player.facing_right = true
+                elseif direction.x < 0 then
+                    player.facing_right = false
+                end
             end
         end
     end
@@ -78,7 +82,6 @@ function _draw()
 end
 
 -- TODO: move tile-based, but animated linear between tiles (offset x/y follows x/y in its separate update function)
--- TODO: walls non-walkable
 -- TODO: wall bump with use of the offset movement logic
 -- TODO: non-walkable: door, chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
 -- TODO: can-interact-with flag: stairs, door, chest big/small closed, vase 1&2, stone tablet

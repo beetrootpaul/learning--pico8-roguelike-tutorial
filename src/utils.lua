@@ -34,6 +34,9 @@ local utils = {
         pink = 14,
         salmon = 15,
     },
+    flags = {
+        non_walkable = 0,
+    },
     measure_text_width = function(text)
         local y_to_print_outside_screen = -text_height_px
         return print(text, 0, y_to_print_outside_screen)
