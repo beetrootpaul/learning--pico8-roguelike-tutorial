@@ -48,8 +48,18 @@ local utils = {
     end,
     screen_edge_length = 128,
     screen_edge_tiles = 16,
+    sounds = {
+        walk_step_sfx = 2,
+        wall_bump_sfx = 3,
+        door_open_sfx = 0,
+        chest_open_sfx = 1,
+    },
     sprites = {
         door = 47,
+        chest = {
+            closed = 45,
+            open = 46,
+        },
         floor = 32,
         player = {
             sprite_1 = 1,

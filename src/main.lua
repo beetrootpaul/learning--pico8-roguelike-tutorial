@@ -112,6 +112,15 @@ function _update60()
                     elseif direction.x < 0 then
                         player.facing_right = false
                     end
+                    if tile == u.sprites.door then
+                        sfx(u.sounds.door_open_sfx)
+                        mset(next_x, next_y, u.sprites.floor)
+                    elseif tile == u.sprites.chest.closed then
+                        sfx(u.sounds.chest_open_sfx)
+                        mset(next_x, next_y, u.sprites.chest.open)
+                    else
+                        sfx(u.sounds.wall_bump_sfx)
+                    end
                 else
                     player.movement1 = new_movement({
                         start_x = player.x_tile * u.tile_edge_length,
@@ -126,9 +135,7 @@ function _update60()
                     elseif direction.x < 0 then
                         player.facing_right = false
                     end
-                end
-                if tile == u.sprites.door then
-                    mset(next_x, next_y, u.sprites.floor)
+                    sfx(u.sounds.walk_step_sfx)
                 end
             end
         end
@@ -174,12 +181,8 @@ end
 
 -- TODO: next button 1-slot buffer to be able to move again during movement animation
 
--- TODO: SFX for walking
--- TODO: SFX for door open
--- TODO: SFX for chest open
 -- TODO: SFX for chest open, but no space in inventory
 -- TODO: SFX for vase break
--- TODO: SFX for wall bump
 
 -- TODO: function to draw a window with border with text inside, clipped to not overflow
 -- TODO: show text window on stone tablet bump
@@ -188,3 +191,6 @@ end
 -- TODO: window disappear on X press
 -- TODO: X animated (`SIN(TIME())` might be helpful)
 -- TODO: multiple stone tablets with their texts (maybe use last sprite flags as binary number of text?)
+
+-- TODO: level end on step on end stairs
+
