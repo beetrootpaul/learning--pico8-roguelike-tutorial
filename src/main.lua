@@ -1,3 +1,28 @@
+function new_movement(params)
+    local start_x, start_y = params.start_x, params.start_y
+    local end_x, end_y = params.end_x, params.end_y
+
+    local movement = {
+        x = start_x,
+        y = start_y,
+        has_finished = false
+    }
+
+    movement.advance_1_frame = function()
+        if movement.x == end_x and movement.y == end_y then
+            movement.has_finished = true
+        end
+        if movement.x ~= end_x then
+            movement.x = movement.x + 1 * sgn(end_x - movement.x)
+        end
+        if movement.y ~= end_y then
+            movement.y = movement.y + 1 * sgn(end_y - movement.y)
+        end
+    end
+
+    return movement
+end
+
 function new_animation(params)
     local step_length_frames = params.step_length_frames
     local sprites = params.sprites
@@ -5,41 +30,40 @@ function new_animation(params)
     local frame_counter = 0
     local loop_length_frames = step_length_frames * #sprites
 
-    local advance_1_frame = function()
+    local animation = {}
+
+    animation.advance_1_frame = function()
         frame_counter = (frame_counter + 1) % loop_length_frames
     end
 
-    local current_sprite = function()
+    animation.current_sprite = function()
         local sprite_index = 1 + flr(frame_counter / step_length_frames)
         return sprites[sprite_index]
     end
 
-    return {
-        advance_1_frame = advance_1_frame,
-        current_sprite = current_sprite,
-    }
+    return animation
 end
 
 function new_player(params)
     local x_tile, y_tile = params.x_tile, params.y_tile
 
-    local facing_right = true
-    local walk_animation = new_animation({
-        step_length_frames = 10,
-        sprites = {
-            u.sprites.player.sprite_1,
-            u.sprites.player.sprite_2,
-            u.sprites.player.sprite_3,
-            u.sprites.player.sprite_4,
-        },
-    })
-
-    return {
+    local player = {
         x_tile = x_tile,
         y_tile = y_tile,
-        facing_right = facing_right,
-        walk_animation = walk_animation,
+        facing_right = true,
+        walk_animation = new_animation({
+            step_length_frames = 10,
+            sprites = {
+                u.sprites.player.sprite_1,
+                u.sprites.player.sprite_2,
+                u.sprites.player.sprite_3,
+                u.sprites.player.sprite_4,
+            },
+        }),
+        movement = nil,
     }
+
+    return player
 end
 
 local player = new_player({
@@ -49,18 +73,34 @@ local player = new_player({
 
 function _update60()
     d:update()
+
     player.walk_animation.advance_1_frame()
-    for button, direction in pairs(u.buttons_to_directions) do
-        if btnp(button) then
-            local next_x, next_y = player.x_tile + direction.x, player.y_tile + direction.y
-            local tile = mget(next_x, next_y)
-            if not fget(tile, u.flags.non_walkable) then
-                player.x_tile = player.x_tile + direction.x
-                player.y_tile = player.y_tile + direction.y
-                if direction.x > 0 then
-                    player.facing_right = true
-                elseif direction.x < 0 then
-                    player.facing_right = false
+
+    if player.movement then
+        if player.movement.has_finished then
+            player.movement = nil
+        else
+            player.movement.advance_1_frame()
+        end
+    else
+        for button, direction in pairs(u.buttons_to_directions) do
+            if btnp(button) then
+                local next_x, next_y = player.x_tile + direction.x, player.y_tile + direction.y
+                local tile = mget(next_x, next_y)
+                if not fget(tile, u.flags.non_walkable) then
+                    player.movement = new_movement({
+                        start_x = player.x_tile * u.tile_edge_length,
+                        start_y = player.y_tile * u.tile_edge_length,
+                        end_x = next_x * u.tile_edge_length,
+                        end_y = next_y * u.tile_edge_length,
+                    })
+                    player.x_tile = player.x_tile + direction.x
+                    player.y_tile = player.y_tile + direction.y
+                    if direction.x > 0 then
+                        player.facing_right = true
+                    elseif direction.x < 0 then
+                        player.facing_right = false
+                    end
                 end
             end
         end
@@ -69,19 +109,29 @@ end
 
 function _draw()
     cls()
+
     map(0, 0, 0, 0, u.screen_edge_tiles, u.screen_edge_tiles)
+
     palt(u.colors.black, false)
     pal(u.colors.light_grey, u.colors.yellow)
-    spr(player.walk_animation.current_sprite(),
-        player.x_tile * u.tile_edge_length,
-        player.y_tile * u.tile_edge_length,
-        1, 1,
-        not player.facing_right)
+    if player.movement then
+        spr(player.walk_animation.current_sprite(),
+            player.movement.x,
+            player.movement.y,
+            1, 1,
+            not player.facing_right)
+    else
+        spr(player.walk_animation.current_sprite(),
+            player.x_tile * u.tile_edge_length,
+            player.y_tile * u.tile_edge_length,
+            1, 1,
+            not player.facing_right)
+    end
     pal()
+
     d:draw()
 end
 
--- TODO: move tile-based, but animated linear between tiles (offset x/y follows x/y in its separate update function)
 -- TODO: wall bump with use of the offset movement logic
 
 -- TODO: non-walkable: door, chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
