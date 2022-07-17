@@ -60,7 +60,8 @@ function new_player(params)
                 u.sprites.player.sprite_4,
             },
         }),
-        movement = nil,
+        movement1 = nil,
+        movement2 = nil,
     }
 
     return player
@@ -76,19 +77,43 @@ function _update60()
 
     player.walk_animation.advance_1_frame()
 
-    if player.movement then
-        if player.movement.has_finished then
-            player.movement = nil
+    if player.movement1 then
+        if player.movement1.has_finished then
+            player.movement1 = nil
         else
-            player.movement.advance_1_frame()
+            player.movement1.advance_1_frame()
+        end
+    elseif player.movement2 then
+        if player.movement2.has_finished then
+            player.movement2 = nil
+        else
+            player.movement2.advance_1_frame()
         end
     else
         for button, direction in pairs(u.buttons_to_directions) do
             if btnp(button) then
                 local next_x, next_y = player.x_tile + direction.x, player.y_tile + direction.y
                 local tile = mget(next_x, next_y)
-                if not fget(tile, u.flags.non_walkable) then
-                    player.movement = new_movement({
+                if fget(tile, u.flags.non_walkable) then
+                    player.movement1 = new_movement({
+                        start_x = player.x_tile * u.tile_edge_length,
+                        start_y = player.y_tile * u.tile_edge_length,
+                        end_x = player.x_tile * u.tile_edge_length + (next_x * u.tile_edge_length - player.x_tile * u.tile_edge_length) / 4,
+                        end_y = player.y_tile * u.tile_edge_length + (next_y * u.tile_edge_length - player.y_tile * u.tile_edge_length) / 4,
+                    })
+                    player.movement2 = new_movement({
+                        start_x = player.x_tile * u.tile_edge_length + (next_x * u.tile_edge_length - player.x_tile * u.tile_edge_length) / 4,
+                        start_y = player.y_tile * u.tile_edge_length + (next_y * u.tile_edge_length - player.y_tile * u.tile_edge_length) / 4,
+                        end_x = player.x_tile * u.tile_edge_length,
+                        end_y = player.y_tile * u.tile_edge_length,
+                    })
+                    if direction.x > 0 then
+                        player.facing_right = true
+                    elseif direction.x < 0 then
+                        player.facing_right = false
+                    end
+                else
+                    player.movement1 = new_movement({
                         start_x = player.x_tile * u.tile_edge_length,
                         start_y = player.y_tile * u.tile_edge_length,
                         end_x = next_x * u.tile_edge_length,
@@ -114,10 +139,16 @@ function _draw()
 
     palt(u.colors.black, false)
     pal(u.colors.light_grey, u.colors.yellow)
-    if player.movement then
+    if player.movement1 then
         spr(player.walk_animation.current_sprite(),
-            player.movement.x,
-            player.movement.y,
+            player.movement1.x,
+            player.movement1.y,
+            1, 1,
+            not player.facing_right)
+    elseif player.movement2 then
+        spr(player.walk_animation.current_sprite(),
+            player.movement2.x,
+            player.movement2.y,
             1, 1,
             not player.facing_right)
     else
@@ -131,8 +162,6 @@ function _draw()
 
     d:draw()
 end
-
--- TODO: wall bump with use of the offset movement logic
 
 -- TODO: non-walkable: door, chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
 -- TODO: can-interact-with flag: stairs, door, chest big/small closed, vase 1&2, stone tablet
@@ -148,6 +177,7 @@ end
 -- TODO: SFX for chest open
 -- TODO: SFX for chest open, but no space in inventory
 -- TODO: SFX for vase break
+-- TODO: SFX for wall bump
 
 -- TODO: function to draw a window with border with text inside, clipped to not overflow
 -- TODO: show text window on stone tablet bump
