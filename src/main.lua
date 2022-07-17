@@ -131,6 +131,14 @@ function _update60()
                     elseif tile == u.sprites.chest.closed then
                         sfx(u.sounds.chest_open_sfx)
                         mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.chest.open)
+
+                    elseif tile == u.sprites.wall.solid then
+                        sfx(u.sounds.wall_harm_sfx)
+                        mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.wall.broken)
+
+                    elseif tile == u.sprites.wall.broken then
+                        sfx(u.sounds.wall_destroy_sfx)
+                        mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
                     else
                         sfx(u.sounds.wall_bump_sfx)
                     end

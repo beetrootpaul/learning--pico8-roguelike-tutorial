@@ -72,6 +72,8 @@ local utils = {
         wall_bump_sfx = 3,
         door_open_sfx = 0,
         chest_open_sfx = 1,
+        wall_harm_sfx = 4,
+        wall_destroy_sfx = 5,
     },
     sprites = {
         door = 47,
@@ -80,6 +82,10 @@ local utils = {
             open = 46,
         },
         floor = 32,
+        wall = {
+            solid = 33,
+            broken = 34,
+        },
         level_exit = 15,
         player = {
             sprite_1 = 1,
