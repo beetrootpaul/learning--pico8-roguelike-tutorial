@@ -67,9 +67,10 @@ function new_player(params)
     return player
 end
 
+local level = 1
 local player = new_player({
-    x_tile = 1,
-    y_tile = 2,
+    x_tile = u.levels[level].player_start.x_tile,
+    y_tile = u.levels[level].player_start.y_tile,
 })
 
 function _update60()
@@ -93,7 +94,19 @@ function _update60()
         for button, direction in pairs(u.buttons_to_directions) do
             if btnp(button) then
                 local next_x, next_y = player.x_tile + direction.x, player.y_tile + direction.y
-                local tile = mget(next_x, next_y)
+                local tile = mget(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y)
+                if tile == u.sprites.level_exit then
+                    if level < #u.levels then
+                        level = level + 1
+                        player = new_player({
+                            x_tile = u.levels[level].player_start.x_tile,
+                            y_tile = u.levels[level].player_start.y_tile,
+                        })
+                    else
+                        extcmd("reset")
+                    end
+                    return
+                end
                 if fget(tile, u.flags.non_walkable) then
                     player.movement1 = new_movement({
                         start_x = player.x_tile * u.tile_edge_length,
@@ -114,10 +127,10 @@ function _update60()
                     end
                     if tile == u.sprites.door then
                         sfx(u.sounds.door_open_sfx)
-                        mset(next_x, next_y, u.sprites.floor)
+                        mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
                     elseif tile == u.sprites.chest.closed then
                         sfx(u.sounds.chest_open_sfx)
-                        mset(next_x, next_y, u.sprites.chest.open)
+                        mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.chest.open)
                     else
                         sfx(u.sounds.wall_bump_sfx)
                     end
@@ -145,7 +158,9 @@ end
 function _draw()
     cls()
 
-    map(0, 0, 0, 0, u.screen_edge_tiles, u.screen_edge_tiles)
+    map(u.levels[level].map_position.x_tile, u.levels[level].map_position.y_tile,
+        0, 0,
+        u.screen_edge_tiles, u.screen_edge_tiles)
 
     palt(u.colors.black, false)
     pal(u.colors.light_grey, u.colors.yellow)
@@ -173,11 +188,10 @@ function _draw()
     d:draw()
 end
 
--- TODO: non-walkable: chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
--- TODO: can-interact-with flag: stairs, chest big/small closed, vase 1&2, stone tablet
+-- TODO: non-walkable: vase 1, vase 2, stone tablet
+-- TODO: can-interact-with flag: stairs, vase 1&2, stone tablet
 -- TODO: interaction: vase -> no vase
 -- TODO: interaction: stone tablet -> (nothing yet)
--- TODO: interaction: chest closed -> chest open
 
 -- TODO: next button 1-slot buffer to be able to move again during movement animation
 

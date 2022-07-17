@@ -8,6 +8,7 @@ local buttons = {
 }
 local text_height_px = 5
 local text_width_px = 3
+local screen_edge_tiles = 16
 
 local utils = {
     buttons = buttons,
@@ -38,6 +39,24 @@ local utils = {
     flags = {
         non_walkable = 0,
     },
+    levels = {
+        {
+            player_start = {
+                x_tile = 1, y_tile = 2,
+            },
+            map_position = {
+                x_tile = 0, y_tile = 0,
+            },
+        },
+        {
+            player_start = {
+                x_tile = 17 - screen_edge_tiles, y_tile = 14,
+            },
+            map_position = {
+                x_tile = screen_edge_tiles, y_tile = 0,
+            },
+        }
+    },
     measure_text_width = function(text)
         -- smart implementation, which (probably) takes custom fonts into account:
         --local y_to_print_outside_screen = -text_height_px
@@ -47,7 +66,7 @@ local utils = {
         return #text * (text_width_px + 1)
     end,
     screen_edge_length = 128,
-    screen_edge_tiles = 16,
+    screen_edge_tiles = screen_edge_tiles,
     sounds = {
         walk_step_sfx = 2,
         wall_bump_sfx = 3,
@@ -61,6 +80,7 @@ local utils = {
             open = 46,
         },
         floor = 32,
+        level_exit = 15,
         player = {
             sprite_1 = 1,
             sprite_2 = 2,
