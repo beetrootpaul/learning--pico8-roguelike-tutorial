@@ -119,13 +119,16 @@ function _update60()
                         end_x = next_x * u.tile_edge_length,
                         end_y = next_y * u.tile_edge_length,
                     })
-                    player.x_tile = player.x_tile + direction.x
-                    player.y_tile = player.y_tile + direction.y
+                    player.x_tile = next_x
+                    player.y_tile = next_y
                     if direction.x > 0 then
                         player.facing_right = true
                     elseif direction.x < 0 then
                         player.facing_right = false
                     end
+                end
+                if tile == u.sprites.door then
+                    mset(next_x, next_y, u.sprites.floor)
                 end
             end
         end
@@ -163,10 +166,9 @@ function _draw()
     d:draw()
 end
 
--- TODO: non-walkable: door, chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
--- TODO: can-interact-with flag: stairs, door, chest big/small closed, vase 1&2, stone tablet
+-- TODO: non-walkable: chest big closed/open, chest small closed/open, vase 1, vase 2, stone tablet
+-- TODO: can-interact-with flag: stairs, chest big/small closed, vase 1&2, stone tablet
 -- TODO: interaction: vase -> no vase
--- TODO: interaction: door -> no door
 -- TODO: interaction: stone tablet -> (nothing yet)
 -- TODO: interaction: chest closed -> chest open
 
