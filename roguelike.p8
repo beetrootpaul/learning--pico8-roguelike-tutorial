@@ -7,6 +7,10 @@ __lua__
 #include src/utils.lua
 #include src/debug.lua
 
+#include src/animated_sprite.lua
+#include src/movement_animation.lua
+#include src/player.lua
+
 #include src/main.lua
 
 --[[
