@@ -83,6 +83,9 @@ function _update60()
                 elseif tile == u.sprites.chest.closed then
                     sfx(u.sounds.chest_open_sfx)
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.chest.open)
+                elseif tile == u.sprites.vase.small or tile == u.sprites.vase.big then
+                    -- TODO: SFX
+                    mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
                 else
                     sfx(u.sounds.wall_bump_sfx)
                 end
@@ -139,13 +142,11 @@ function _draw()
     d:draw()
 end
 
--- TODO: non-walkable: vase 1, vase 2, stone tablet
--- TODO: can-interact-with flag: stairs, vase 1&2, stone tablet
--- TODO: interaction: vase -> no vase
+-- TODO: non-walkable: stone tablet
+-- TODO: can-interact-with flag: stone tablet
 -- TODO: interaction: stone tablet -> (nothing yet)
 
 -- TODO: SFX for chest open, but no space in inventory
--- TODO: SFX for vase break
 
 -- TODO: function to draw a window with border with text inside, clipped to not overflow
 -- TODO: show text window on stone tablet bump
@@ -154,3 +155,5 @@ end
 -- TODO: window disappear on X press
 -- TODO: X animated (`SIN(TIME())` might be helpful)
 -- TODO: multiple stone tablets with their texts (maybe use last sprite flags as binary number of text?)
+
+-- TODO: move continued movement smoother

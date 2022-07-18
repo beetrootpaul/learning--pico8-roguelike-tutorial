@@ -87,6 +87,10 @@ local utils = {
             sprite_3 = 3,
             sprite_4 = 4,
         },
+        vase = {
+            small = 43,
+            big = 44,
+        }
     },
     text_height_px = text_height_px,
     tile_edge_length = 8,
