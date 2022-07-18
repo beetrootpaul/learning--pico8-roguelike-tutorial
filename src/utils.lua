@@ -1,3 +1,5 @@
+-- TODO: refactor to `u = new_utils()`
+
 local buttons = {
     l = 0,
     r = 1,
@@ -7,7 +9,7 @@ local buttons = {
     x = 5,
 }
 local text_height_px = 5
-local text_width_px = 3
+local text_character_width_px = 3
 local screen_edge_tiles = 16
 
 local utils = {
@@ -58,12 +60,15 @@ local utils = {
         }
     },
     measure_text_width = function(text)
-        -- smart implementation, which (probably) takes custom fonts into account:
-        --local y_to_print_outside_screen = -text_height_px
-        --return print(text, 0, y_to_print_outside_screen)
-
-        -- good enough simple implementation:
-        return #text * (text_width_px + 1)
+        local y_to_print_outside_screen = -text_height_px
+        return print(text, 0, y_to_print_outside_screen) - 1
+    end,
+    print_with_outline = function(text, x, y, text_color, outline_color)
+        -- Docs on Control Codes: https://www.lexaloffle.com/dl/docs/pico-8_manual.html#Control_Codes
+        for control_code in all(split "\-f,\-h,\|f,\|h,\+ff,\+hh,\+fh,\+hf") do
+            print(control_code .. text, x, y, outline_color)
+        end
+        print(text, x, y, text_color)
     end,
     screen_edge_length = 128,
     screen_edge_tiles = screen_edge_tiles,
@@ -87,11 +92,13 @@ local utils = {
             sprite_3 = 3,
             sprite_4 = 4,
         },
+        stone_tablet = 42,
         vase = {
             small = 43,
             big = 44,
-        }
+        },
     },
+    text_character_width_px = text_character_width_px,
     text_height_px = text_height_px,
     tile_edge_length = 8,
     trim = function(text)

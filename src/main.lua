@@ -5,6 +5,8 @@ local player = new_player {
     y_tile = u.levels[level].player_start.y_tile,
 }
 
+local text_message = nil
+
 function _update60()
     d:update()
 
@@ -31,6 +33,10 @@ function _update60()
             player.movement2 = nil
         else
             player.movement2.advance_1_frame()
+        end
+    elseif text_message then
+        if btnp(u.buttons.x) then
+            text_message = nil
         end
     else
         local button_to_handle = player.buffered_button
@@ -86,6 +92,14 @@ function _update60()
                 elseif tile == u.sprites.vase.small or tile == u.sprites.vase.big then
                     -- TODO: SFX
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
+                elseif tile == u.sprites.stone_tablet then
+                    -- TODO: SFX
+                    text_message = new_text_message({
+                        text_lines = {
+                            "you are not",
+                            "welcome here",
+                        }
+                    })
                 else
                     sfx(u.sounds.wall_bump_sfx)
                 end
@@ -139,21 +153,16 @@ function _draw()
     end
     pal()
 
+    if text_message then
+        text_message.draw()
+    end
+
     d:draw()
 end
 
--- TODO: non-walkable: stone tablet
--- TODO: can-interact-with flag: stone tablet
--- TODO: interaction: stone tablet -> (nothing yet)
+-- TODO: window appears and disappear in an animated way
+-- TODO: multiple stone tablets with their texts (maybe use last sprite flags as binary number of text?)
 
 -- TODO: SFX for chest open, but no space in inventory
 
--- TODO: function to draw a window with border with text inside, clipped to not overflow
--- TODO: show text window on stone tablet bump
--- TODO: window size fits text width; text as an array of lines
--- TODO: window appears and disappear in animated way
--- TODO: window disappear on X press
--- TODO: X animated (`SIN(TIME())` might be helpful)
--- TODO: multiple stone tablets with their texts (maybe use last sprite flags as binary number of text?)
-
--- TODO: move continued movement smoother
+-- TODO: movement seems not so smooth when button is pressed for a long time, like if there was an extra pause frame everytime a tile is reached
