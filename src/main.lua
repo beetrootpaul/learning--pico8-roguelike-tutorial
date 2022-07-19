@@ -21,8 +21,13 @@ end
 function _update60()
     d:update()
 
+    if text_message then
+        text_message.advance_1_frame()
+    end
+
     player.animated_walk.advance_1_frame()
 
+    -- TODO: movement seems not so smooth when button is pressed for a long time, like if there was an extra pause frame everytime a tile is reached
     if player.movement1 then
         for button, _ in pairs(u.buttons_to_directions) do
             if btnp(button) then
@@ -46,7 +51,10 @@ function _update60()
             player.movement2.advance_1_frame()
         end
     elseif text_message then
-        if btnp(u.buttons.x) then
+        if text_message.is_presenting() and btnp(u.buttons.x) then
+            text_message.collapse()
+        end
+        if text_message.has_collapsed() then
             text_message = nil
         end
     else
@@ -98,6 +106,7 @@ function _update60()
                     sfx(u.sounds.door_open_sfx)
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
                 elseif sprite == u.sprites.chest.closed then
+                    -- TODO: SFX for chest open, but no space in inventory
                     sfx(u.sounds.chest_open_sfx)
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.chest.open)
                 elseif sprite == u.sprites.vase.small or sprite == u.sprites.vase.big then
@@ -168,9 +177,3 @@ function _draw()
 
     d:draw()
 end
-
--- TODO: window appears and disappear in an animated way
-
--- TODO: SFX for chest open, but no space in inventory
-
--- TODO: movement seems not so smooth when button is pressed for a long time, like if there was an extra pause frame everytime a tile is reached
