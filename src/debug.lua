@@ -1,3 +1,5 @@
+-- TODO: refactor to `d = new_debug()`, get rid of `d:…` calls
+
 local debug = {
     _enabled = false,
     _messages = {},

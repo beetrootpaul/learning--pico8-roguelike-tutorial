@@ -61,6 +61,13 @@ end
 function camera(x, y)
 end
 
+--- Returns the closest integer that is equal to or above x
+---
+--- @param x number
+--- @return number
+function ceil(x)
+end
+
 --- Draw a circle at x,y with radius r.
 ---
 --- If r is negative, the circle is not drawn.
@@ -146,13 +153,15 @@ end
 
 --- Get the value of sprite N's flag F.
 --- When F is omitted, all flags are retrieved/set as a single bitfield.
+---
 --- @param n number sprite
 --- @param f number flag index, from 0 to 7, optional
 --- @return boolean whether flag is set or not
 function fget(n, f)
 end
 
---- Returns the floor value of a parameter
+--- Returns the closest integer that is equal to or below x
+---
 --- @param x number
 --- @return number
 function flr(x)
@@ -224,6 +233,33 @@ end
 function pairs(tbl)
 end
 
+--- PAL() swaps colour c0 for c1 for one of three palette re-mappings (p defaults to 0):
+---
+--- - 0: Draw Palette
+---
+---   The draw palette re-maps colours when they are drawn. For example, an orange flower sprite can be drawn as a red flower by setting the 9th palette value to 8:
+---   PAL(9,8) -- draw subsequent orange (colour 9) pixels as red (colour 8) SPR(1,70,60) -- any orange pixels in the sprite will be drawn with red instead
+---
+---   Changing the draw palette does not affect anything that was already drawn to the screen.
+---
+--- - 1: Display Palette
+---
+---   The display palette re-maps the whole screen when it is displayed at the end of a frame. For example, if you boot PICO-8 and then type PAL(6,14,1),
+---   you can see all of the gray (colour 6) text immediate change to pink (colour 14) even though it has already been drawn.
+---   This is useful for screen-wide effects such as fading in/out.
+---
+--- - 2: Secondary Palette
+---
+---   Used by FILLP() for drawing sprites. This provides a mapping from a single 4-bit colour index to two 4-bit colour indexes.
+---
+--- PAL() resets all palettes to system defaults (including transparency values) PAL(P) resets a particular palette (0..2) to system defaults
+---
+--- @param c0 number|table color to swap from or table of colors to swap to (where table index is color to swap from, with an extra "[0]=" to swap from black, because tables are 1-based)
+--- @param c1 number color to swap to, absent if c0 is a table
+--- @param p number palette re-mapping mode (0, 1, 2), optional, default: 0
+function pal(c0, c1, p)
+end
+
 --- Set transparency for colour index to T (boolean). Transparency is observed by SPR(), SSPR(), MAP() AND TLINE()
 ---
 --- PALT() resets to default: all colours opaque except colour 0.
@@ -277,6 +313,23 @@ end
 --- @param y1 number bottom-right corner
 --- @param col number color, optional
 function rectfill(x0, y0, x1, y1, col)
+end
+
+--- Returns the cosine or sine of x, where 1.0 means a full turn.
+---
+--- PICO-8's SIN() returns an inverted result to suit screenspace (where Y means "DOWN", as opposed to mathematical diagrams where Y typically means "UP").
+---
+--- > SIN(0.25) -- RETURNS -1
+---
+--- To get conventional radian-based trig functions without the y inversion, paste the following snippet near the start of your program:
+---
+--- > P8COS = COS FUNCTION COS(ANGLE) RETURN P8COS(ANGLE/(3.1415*2)) END
+---
+--- > P8SIN = SIN FUNCTION SIN(ANGLE) RETURN -P8SIN(ANGLE/(3.1415*2)) END
+---
+--- @param x number
+--- @return number
+function sin(x)
 end
 
 --- Play sfx N (0..63) on CHANNEL (0..3) from note OFFSET (0..31 in notes) for LENGTH notes.
@@ -334,6 +387,24 @@ end
 --- @return table
 function sub(str, pos0, pos1)
 end
+
+--- Returns the number of seconds elapsed since the cartridge was run.
+---
+--- This is not the real-world time, but is calculated by counting the number of times _UPDATE or @_UPDATE60 is called.
+--- Multiple calls of TIME() from the same frame return the same result.
+---
+--- @return number
+function time()
+end
+
+--- Same as TIME()
+---
+--- @return number
+function t()
+end
+
+
+
 
 --- Convert VAL to a string.
 ---
