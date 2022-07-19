@@ -7,6 +7,17 @@ local player = new_player {
 
 local text_message = nil
 
+function _init()
+    for location, _ in pairs(u.stone_tablet_texts) do
+        local tile_x = split(location, "-")[1]
+        local tile_y = split(location, "-")[2]
+        local sprite = mget(tile_x, tile_y)
+        assert(sprite == u.sprites.stone_tablet,
+            "no stone tablet found at tile (" .. tile_x .. "," .. tile_y .. "). found sprite " .. sprite .. " instead")
+    end
+end
+
+-- TODO: refactor this function
 function _update60()
     d:update()
 
@@ -52,8 +63,8 @@ function _update60()
         if button_to_handle then
             local direction = u.buttons_to_directions[button_to_handle]
             local next_x, next_y = player.x_tile + direction.x, player.y_tile + direction.y
-            local tile = mget(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y)
-            if tile == u.sprites.level_exit then
+            local sprite = mget(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y)
+            if sprite == u.sprites.level_exit then
                 if level < #u.levels then
                     level = level + 1
                     player = new_player {
@@ -65,7 +76,7 @@ function _update60()
                 end
                 return
             end
-            if fget(tile, u.flags.non_walkable) then
+            if fget(sprite, u.flags.non_walkable) then
                 player.movement1 = new_movement_animation {
                     start_x = player.x_tile * u.tile_edge_length,
                     start_y = player.y_tile * u.tile_edge_length,
@@ -83,22 +94,20 @@ function _update60()
                 elseif direction.x < 0 then
                     player.facing_right = false
                 end
-                if tile == u.sprites.door then
+                if sprite == u.sprites.door then
                     sfx(u.sounds.door_open_sfx)
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
-                elseif tile == u.sprites.chest.closed then
+                elseif sprite == u.sprites.chest.closed then
                     sfx(u.sounds.chest_open_sfx)
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.chest.open)
-                elseif tile == u.sprites.vase.small or tile == u.sprites.vase.big then
+                elseif sprite == u.sprites.vase.small or sprite == u.sprites.vase.big then
                     -- TODO: SFX
                     mset(u.levels[level].map_position.x_tile + next_x, u.levels[level].map_position.y_tile + next_y, u.sprites.floor)
-                elseif tile == u.sprites.stone_tablet then
+                elseif sprite == u.sprites.stone_tablet then
                     -- TODO: SFX
+                    local text_lines = u.stone_tablet_texts[(u.levels[level].map_position.x_tile + next_x) .. "-" .. (u.levels[level].map_position.y_tile + next_y)]
                     text_message = new_text_message({
-                        text_lines = {
-                            "you are not",
-                            "welcome here",
-                        }
+                        text_lines = text_lines or { "lorem ipsum... ?" }
                     })
                 else
                     sfx(u.sounds.wall_bump_sfx)
@@ -161,7 +170,6 @@ function _draw()
 end
 
 -- TODO: window appears and disappear in an animated way
--- TODO: multiple stone tablets with their texts (maybe use last sprite flags as binary number of text?)
 
 -- TODO: SFX for chest open, but no space in inventory
 

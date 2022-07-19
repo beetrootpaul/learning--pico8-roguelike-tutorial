@@ -61,6 +61,13 @@ end
 function camera(x, y)
 end
 
+--- Returns the closest integer that is equal to or above x
+---
+--- @param x number
+--- @return number
+function ceil(x)
+end
+
 --- Draw a circle at x,y with radius r.
 ---
 --- If r is negative, the circle is not drawn.
@@ -146,13 +153,15 @@ end
 
 --- Get the value of sprite N's flag F.
 --- When F is omitted, all flags are retrieved/set as a single bitfield.
+---
 --- @param n number sprite
 --- @param f number flag index, from 0 to 7, optional
 --- @return boolean whether flag is set or not
 function fget(n, f)
 end
 
---- Returns the floor value of a parameter
+--- Returns the closest integer that is equal to or below x
+---
 --- @param x number
 --- @return number
 function flr(x)
@@ -304,6 +313,23 @@ end
 --- @param y1 number bottom-right corner
 --- @param col number color, optional
 function rectfill(x0, y0, x1, y1, col)
+end
+
+--- Returns the cosine or sine of x, where 1.0 means a full turn.
+---
+--- PICO-8's SIN() returns an inverted result to suit screenspace (where Y means "DOWN", as opposed to mathematical diagrams where Y typically means "UP").
+---
+--- > SIN(0.25) -- RETURNS -1
+---
+--- To get conventional radian-based trig functions without the y inversion, paste the following snippet near the start of your program:
+---
+--- > P8COS = COS FUNCTION COS(ANGLE) RETURN P8COS(ANGLE/(3.1415*2)) END
+---
+--- > P8SIN = SIN FUNCTION SIN(ANGLE) RETURN -P8SIN(ANGLE/(3.1415*2)) END
+---
+--- @param x number
+--- @return number
+function sin(x)
 end
 
 --- Play sfx N (0..63) on CHANNEL (0..3) from note OFFSET (0..31 in notes) for LENGTH notes.

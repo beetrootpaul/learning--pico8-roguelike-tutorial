@@ -98,6 +98,11 @@ local utils = {
             big = 44,
         },
     },
+    stone_tablet_texts = {
+        ["3-2"] = { "you are not", "welcome here" },
+        ["8-12"] = { "still here?" },
+        -- TODO: text for other stone tablets
+    },
     text_character_width_px = text_character_width_px,
     text_height_px = text_height_px,
     tile_edge_length = 8,
