@@ -148,12 +148,22 @@ end
 function _draw()
     cls()
 
+    if text_message then
+        pal(u.colors.dark_grey, u.colors.dark_blue)
+        pal(u.colors.light_grey, u.colors.dark_blue)
+        pal(u.colors.yellow, u.colors.dark_blue)
+    end
     map(u.levels[level].map_position.x_tile, u.levels[level].map_position.y_tile,
         0, 0,
         u.screen_edge_tiles, u.screen_edge_tiles)
+    pal()
 
     palt(u.colors.black, false)
-    pal(u.colors.light_grey, u.colors.yellow)
+    if text_message then
+        pal(u.colors.light_grey, u.colors.dark_blue)
+    else
+        pal(u.colors.light_grey, u.colors.yellow)
+    end
     if player.movement1 then
         spr(player.animated_walk.current_sprite(),
             player.movement1.x,
