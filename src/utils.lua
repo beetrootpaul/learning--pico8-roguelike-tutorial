@@ -39,7 +39,7 @@ local utils = {
         salmon = 15,
     },
     flags = {
-        non_walkable = 0,
+        walkable = 0,
     },
     levels = {
         {

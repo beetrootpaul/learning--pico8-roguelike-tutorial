@@ -1,3 +1,7 @@
+-- TODO: slime mob in an array of mobs to draw
+-- TODO: animated slime mob
+-- TODO: cannot walk on a mob
+
 local level = 1
 
 local player = new_player {
@@ -84,7 +88,7 @@ function _update60()
                 end
                 return
             end
-            if fget(sprite, u.flags.non_walkable) then
+            if not fget(sprite, u.flags.walkable) then
                 player.movement1 = new_movement_animation {
                     start_x = player.x_tile * u.tile_edge_length,
                     start_y = player.y_tile * u.tile_edge_length,
