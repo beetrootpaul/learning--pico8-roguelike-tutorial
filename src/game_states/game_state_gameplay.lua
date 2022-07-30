@@ -17,7 +17,7 @@ function new_game_state_gameplay(params)
     local monsters = new_monsters()
     local monster_positions = level.get_and_clear_initial_monster_positions()
     for monster_position in all(monster_positions) do
-        monsters.add_monster(monster_position)
+        monsters.add(monster_position)
     end
 
     local text_message
@@ -61,7 +61,11 @@ function new_game_state_gameplay(params)
 
             local next_position = player.next_position(direction)
 
-            if level.is_walkable(next_position) then
+            local monster = monsters.get_monster_on(next_position)
+            if monster then
+                player.bump(direction)
+                monster.receive_damage()
+            elseif level.is_walkable(next_position) then
                 player.walk(direction)
             else
                 player.bump(direction)

@@ -29,9 +29,6 @@ function _draw()
     gs.draw()
 end
 
--- TODO: cannot walk on a mob
--- TODO: bump on a mob => 1 attack point, if mob's HP goes to 0, the mob disappear
--- TODO: SFX of attack hit
 -- TODO: mob color flash (several frames) to indicate being hit
 -- TODO: "-1" floating above mob (and stopping at some Y for couple of frames) on every hit
 -- TODO: mob not disappearing immediately on 0 HP, but after delay (but NOT hittable again!)

@@ -16,7 +16,31 @@ function new_monster(params)
         },
     }
 
+    local health = 2
+
     local m = {}
+
+    --
+
+    function m.position()
+        return {
+            x_tile = x_tile,
+            y_tile = y_tile,
+        }
+    end
+
+    --
+
+    function m.receive_damage()
+        audio.sfx(a.sounds.sfx_hit_monster)
+        health = max(0, health - 1)
+    end
+
+    --
+
+    function m.is_dead()
+        return health <= 0
+    end
 
     --
 
