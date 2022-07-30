@@ -11,6 +11,8 @@ function new_level(params)
         return map_x, map_y
     end
 
+    u.reload_map_from_cart()
+
     local l = {}
 
     --

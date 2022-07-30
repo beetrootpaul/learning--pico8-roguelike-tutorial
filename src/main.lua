@@ -7,10 +7,10 @@ __debug__ = true
 local gs
 
 function _init()
-    -- set btnp(…) initial delay
-    poke(0x5f5c, 4)
-    -- set btnp(…) repeating delay
-    poke(0x5f5d, 4)
+    u.set_btnp_delay {
+        initial = 4,
+        repeating = 4,
+    }
 
     validations.validate_stone_tablets()
 
@@ -28,8 +28,6 @@ function _draw()
     cls()
     gs.draw()
 end
-
--- TODO: make game restart without "reset" command, but with map reset to its initial state
 
 -- TODO: make better SFXs
 

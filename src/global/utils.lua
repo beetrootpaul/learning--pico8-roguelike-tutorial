@@ -74,6 +74,19 @@ function u.print_with_outline(text, x, y, text_color, outline_color)
     print(text, x, y, text_color)
 end
 
+function u.reload_map_from_cart()
+    reload(0x2000, 0x2000, 0x1000)
+end
+
+function u.set_btnp_delay(params)
+    if params.initial then
+        poke(0x5f5c, params.initial)
+    end
+    if params.repeating then
+        poke(0x5f5d, 4)
+    end
+end
+
 function u.trim(text)
     local result = text
     while sub(result, 1, 1) == ' ' do
