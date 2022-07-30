@@ -3,8 +3,8 @@
 -- -- -- -- -- -- -- --
 
 function new_player(params)
-    local x_tile = params.x_tile
-    local y_tile = params.y_tile
+    local x_tile = params.position.x_tile
+    local y_tile = params.position.y_tile
 
     local is_facing_left = false
 

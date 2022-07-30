@@ -11,6 +11,14 @@ function new_level(params)
         return map_x, map_y
     end
 
+    local function for_each_level_position(callback)
+        for x_tile = 1, u.screen_size_tiles do
+            for y_tile = 1, u.screen_size_tiles do
+                callback({ x_tile = x_tile, y_tile = y_tile })
+            end
+        end
+    end
+
     u.reload_map_from_cart()
 
     local l = {}
@@ -19,6 +27,38 @@ function new_level(params)
 
     function l.to_map_xy(position)
         return to_map_xy(position)
+    end
+
+    --
+
+    function l.get_and_clear_initial_player_position()
+        local player_position
+        for_each_level_position(function(position)
+            local map_x, map_y = to_map_xy(position)
+            if mget(map_x, map_y) == a.sprites.player_walk_1 then
+                mset(map_x, map_y, a.sprites.floor)
+                player_position = position
+            end
+        end)
+        assert(
+            player_position,
+            "no initial player position found on a map starting on " .. map_position.x_tile .. "," .. map_position.y_tile
+        )
+        return player_position
+    end
+
+    --
+
+    function l.get_and_clear_initial_monster_positions()
+        local monster_positions = {}
+        for_each_level_position(function(position)
+            local map_x, map_y = to_map_xy(position)
+            if mget(map_x, map_y) == a.sprites.monster_slime_1 then
+                mset(map_x, map_y, a.sprites.floor)
+                add(monster_positions, position)
+            end
+        end)
+        return monster_positions
     end
 
     --

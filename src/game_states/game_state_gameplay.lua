@@ -8,10 +8,18 @@ function new_game_state_gameplay(params)
     local level = new_level {
         map_position = a.levels[level_number].map_position,
     }
+
+    local player_position = level.get_and_clear_initial_player_position()
     local player = new_player {
-        x_tile = a.levels[level_number].player_start.x_tile,
-        y_tile = a.levels[level_number].player_start.y_tile,
+        position = player_position,
     }
+
+    local monsters = new_monsters()
+    local monster_positions = level.get_and_clear_initial_monster_positions()
+    for monster_position in all(monster_positions) do
+        monsters.add_monster(monster_position)
+    end
+
     local text_message
 
     local buffered_button
@@ -87,6 +95,8 @@ function new_game_state_gameplay(params)
 
         player.update()
 
+        monsters.update()
+
         return next_gs
     end
 
@@ -94,6 +104,9 @@ function new_game_state_gameplay(params)
 
     function gs.draw()
         level.draw {
+            dim_colors = text_message,
+        }
+        monsters.draw {
             dim_colors = text_message,
         }
         player.draw {
