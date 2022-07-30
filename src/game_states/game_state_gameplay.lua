@@ -60,6 +60,7 @@ function new_game_state_gameplay(params)
             end
 
             if level.is_stone_tablet(next_position) then
+                audio.sfx(a.sounds.sfx_read_stone_tablet)
                 local map_x, map_y = level.to_map_xy(next_position)
                 if __debug__ then
                     printh("stone tablet map xy = " .. map_x .. "," .. map_y)

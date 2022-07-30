@@ -29,11 +29,6 @@ function _draw()
     gs.draw()
 end
 
--- TODO: make better SFXs
-
--- TODO: vase SFX
--- TODO: stone tablet SFX
-
 -- TODO: slime mob in an array of mobs to draw
 -- TODO: animated slime mob
 -- TODO: cannot walk on a mob

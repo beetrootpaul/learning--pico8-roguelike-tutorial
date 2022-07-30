@@ -61,6 +61,7 @@ function new_level(params)
         return sprite == a.sprites.vase_small or sprite == a.sprites.vase_big
     end
     function l.break_vase(position)
+        audio.sfx(a.sounds.sfx_break_vase)
         local map_x, map_y = to_map_xy(position)
         mset(map_x, map_y, a.sprites.floor)
     end

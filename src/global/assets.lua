@@ -19,8 +19,10 @@ a = {
     sounds = {
         sfx_walk = { track = 2, priority = 0 },
         sfx_bump = { track = 3, priority = 1 },
-        sfx_open_door = { track = 0, priority = 2 },
-        sfx_open_chest = { track = 1, priority = 3 },
+        sfx_break_vase = { track = 5, priority = 2 },
+        sfx_open_door = { track = 0, priority = 3 },
+        sfx_open_chest = { track = 1, priority = 4 },
+        sfx_read_stone_tablet = { track = 4, priority = 5 },
     },
     sprite_flags = {
         walkable = 0
