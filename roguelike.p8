@@ -4,13 +4,21 @@ __lua__
 -- lazy dev's roguelike tutorial
 -- beetroot paul's take
 
-#include src/utils.lua
-#include src/debug.lua
+#include src/global/utils.lua
+#include src/global/assets.lua
+#include src/global/validations.lua
+#include src/global/audio.lua
 
-#include src/animated_sprite.lua
-#include src/movement_animation.lua
-#include src/player.lua
-#include src/text_message.lua
+#include src/game_states/game_state_gameplay.lua
+
+#include src/gui/text_message.lua
+
+#include src/gameplay/animated_sprite.lua
+#include src/gameplay/level.lua
+#include src/gameplay/movement_bump.lua
+#include src/gameplay/movement_walk.lua
+#include src/gameplay/player.lua
+
 
 #include src/main.lua
 
