@@ -14,6 +14,8 @@ __lua__
 #include src/gui/text_message.lua
 
 #include src/gameplay/animated_sprite.lua
+#include src/gameplay/damage_indicator.lua
+#include src/gameplay/damage_indicators.lua
 #include src/gameplay/level.lua
 #include src/gameplay/monster.lua
 #include src/gameplay/monsters.lua

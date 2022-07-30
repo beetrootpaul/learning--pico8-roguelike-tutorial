@@ -20,12 +20,6 @@ function new_monsters()
 
     --
 
-    function mm.remove(monster)
-        del(list, monster)
-    end
-
-    --
-
     function mm.get_monster_on(position)
         for monster in all(list) do
             local p = monster.position()

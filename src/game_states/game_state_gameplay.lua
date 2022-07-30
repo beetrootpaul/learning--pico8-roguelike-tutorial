@@ -20,6 +20,8 @@ function new_game_state_gameplay(params)
         monsters.add(monster_position)
     end
 
+    local damage_indicators = new_damage_indicators()
+
     local text_message
 
     local buffered_button
@@ -65,6 +67,7 @@ function new_game_state_gameplay(params)
             if monster then
                 player.bump(direction)
                 monster.receive_damage()
+                damage_indicators.add_above(next_position)
             elseif level.is_walkable(next_position) then
                 player.walk(direction)
             else
@@ -101,6 +104,8 @@ function new_game_state_gameplay(params)
 
         monsters.update()
 
+        damage_indicators.advance_1_frame()
+
         return next_gs
     end
 
@@ -114,6 +119,9 @@ function new_game_state_gameplay(params)
             dim_colors = text_message,
         }
         player.draw {
+            dim_colors = text_message,
+        }
+        damage_indicators.draw {
             dim_colors = text_message,
         }
 

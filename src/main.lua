@@ -30,7 +30,6 @@ function _draw()
 end
 
 -- TODO: mob color flash (several frames) to indicate being hit
--- TODO: "-1" floating above mob (and stopping at some Y for couple of frames) on every hit
 -- TODO: mob not disappearing immediately on 0 HP, but after delay (but NOT hittable again!)
 -- TODO: mobs move to tiles closer to player (by comparing distance)
 -- TODO: mobs do not move onto walls
