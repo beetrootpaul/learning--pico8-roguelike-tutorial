@@ -1,6 +1,7 @@
 -- This file contains some parts of PICO-8 API, written down and annotated by Beetroot Paul (https://beetrootpaul.com)
 --
--- Most of descriptions are copied from the official PICO-8 docs (https://www.lexaloffle.com/dl/docs/pico-8_manual.html)
+-- Most of descriptions are copied from the official PICO-8 docs (https://www.lexaloffle.com/dl/docs/pico-8_manual.html),
+-- some are copied from PICO-8 Wiki (https://pico-8.fandom.com/wiki/Pico-8_Wikia).
 --
 -- This file is not intended to be included in PICO-8 game, because it would overwrite
 -- PICO-8's global functions. Instead, its only purpose is to help IDE with code completion,
@@ -344,6 +345,15 @@ end
 ---
 --- @param x number|table
 function rnd(x)
+end
+
+--- Returns the sign of a number, 1 for positive, -1 for negative
+---
+--- SGN(0) will return 1, not 0 as might be common on other platforms.
+---
+--- @param x number The number to determine the sign of, optional
+--- @return number either 1 or -1
+function sgn(x)
 end
 
 --- Returns the cosine or sine of x, where 1.0 means a full turn.

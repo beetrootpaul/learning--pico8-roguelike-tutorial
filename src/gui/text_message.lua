@@ -1,8 +1,12 @@
+-- -- -- -- -- -- -- --
+-- gui/text_message  --
+-- -- -- -- -- -- -- --
+
 function new_text_message(params)
     local text_lines = params.text_lines
 
-    local expand_length_frames = 10
-    local collapse_length_frames = 10
+    local expand_length_frames = 6
+    local collapse_length_frames = 6
     local frame_counter = 0
     local state = "expanding"
 
@@ -11,36 +15,48 @@ function new_text_message(params)
         max_text_length = max(max_text_length, u.measure_text_width(text_line))
     end
 
-    local text_message = {}
+    local tm = {}
 
-    text_message.advance_1_frame = function()
+    --
+
+    function tm.advance_1_frame()
         if state == "expanding" then
-            frame_counter = frame_counter + 1
-            if frame_counter >= expand_length_frames then
+            if frame_counter < expand_length_frames then
+                frame_counter = frame_counter + 1
+            else
                 state = "presenting"
             end
         elseif state == "collapsing" then
-            frame_counter = frame_counter + 1
-            if frame_counter >= collapse_length_frames then
+            if frame_counter < collapse_length_frames then
+                frame_counter = frame_counter + 1
+            else
                 state = "hidden"
             end
         end
     end
 
-    text_message.is_presenting = function()
+    --
+
+    function tm.is_presenting()
         return state == "presenting"
     end
 
-    text_message.collapse = function()
+    --
+
+    function tm.collapse()
         frame_counter = 0
         state = "collapsing"
     end
 
-    text_message.has_collapsed = function()
+    --
+
+    function tm.has_collapsed()
         return state == "hidden"
     end
 
-    text_message.draw = function()
+    --
+
+    function tm.draw()
         if state == "hidden" then
             return
         end
@@ -50,53 +66,62 @@ function new_text_message(params)
         local text_margin = 5
 
         local inner_w = max_text_length + 2 * text_margin
-        local inner_h = #text_lines * (u.text_height_px + 1) - 1 + 2 * text_margin
+        local inner_h = #text_lines * (u.text_height + u.text_line_gap) - u.text_line_gap + 2 * text_margin
         if state == "expanding" then
             inner_h = inner_h * frame_counter / expand_length_frames
         elseif state == "collapsing" then
             inner_h = inner_h * (1 - frame_counter / collapse_length_frames)
         end
-        local inner_x = u.screen_edge_length / 2 - inner_w / 2
-        local inner_y = u.screen_edge_length / 2 - inner_h / 2
+        local inner_x = u.screen_size / 2 - inner_w / 2
+        local inner_y = u.screen_size / 2 - inner_h / 2
 
         rectfill(
             inner_x - inner_border_width - outer_border_width,
             inner_y - inner_border_width - outer_border_width,
             inner_x + inner_w - 1 + inner_border_width + outer_border_width,
             inner_y + inner_h - 1 + inner_border_width + outer_border_width,
-            u.colors.black)
+            u.colors.black
+        )
         rectfill(
             inner_x - inner_border_width,
             inner_y - inner_border_width,
             inner_x + inner_w - 1 + inner_border_width,
             inner_y + inner_h - 1 + inner_border_width,
-            u.colors.light_grey)
+            u.colors.light_grey
+        )
         rectfill(
             inner_x,
             inner_y,
             inner_x + inner_w - 1,
             inner_y + inner_h - 1,
-            u.colors.black)
+            u.colors.black
+        )
 
         if state == "presenting" then
             for index, text_line in pairs(text_lines) do
-                print(text_line,
+                print(
+                    text_line,
                     inner_x + text_margin + (max_text_length - u.measure_text_width(text_line)) / 2,
-                    inner_y + text_margin + (index - 1) * (u.text_height_px + 1),
-                    u.colors.light_grey)
+                    inner_y + text_margin + (index - 1) * (u.text_height + u.text_line_gap),
+                    u.colors.light_grey
+                )
             end
         end
 
         if state == "presenting" then
             local button_x = inner_x + inner_w - 3
             local button_y = inner_y + inner_h - 2
-            local changing_0_or_1_px = ceil(sin(time() * 2) / 2)
-            u.print_with_outline("❎",
+            local time_dependent_boolean = u.boolean_changing_every_nth_second(0.25)
+            u.print_with_outline(
+                "❎",
                 button_x,
-                button_y - changing_0_or_1_px,
-                u.colors.light_grey)
+                button_y - (time_dependent_boolean and 1 or 0),
+                u.colors.light_grey
+            )
         end
     end
 
-    return text_message
+    --
+
+    return tm
 end
