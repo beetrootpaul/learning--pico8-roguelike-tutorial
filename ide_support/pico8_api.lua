@@ -1,5 +1,5 @@
--- Some parts of PICO-8 API written down and annotated by Beetroot Paul (https://beetrootpaul.com)
-
+-- This file contains some parts of PICO-8 API, written down and annotated by Beetroot Paul (https://beetrootpaul.com)
+--
 -- Most of descriptions are copied from the official PICO-8 docs (https://www.lexaloffle.com/dl/docs/pico-8_manual.html)
 --
 -- This file is not intended to be included in PICO-8 game, because it would overwrite
@@ -21,7 +21,7 @@ end
 ---
 --- @param tbl table
 --- @param val any
---- @param index number, optional
+--- @param index number optional
 function add(tbl, val, index)
 end
 
@@ -56,8 +56,8 @@ end
 ---
 --- CAMERA() to reset
 ---
---- @param x number, optional in pair with y
---- @param y number, optional in pair with x
+--- @param x number optional in pair with y
+--- @param y number optional in pair with x
 function camera(x, y)
 end
 
@@ -107,6 +107,26 @@ end
 --- Clear the screen and reset the clipping rectangle.
 --- @param col number optional, default: black
 function cls(col)
+end
+
+--- Delete the first instance of value VAL in table TBL.
+---
+--- The remaining entries are shifted left one index to avoid holes.
+---
+--- Note that VAL is the value of the item to be deleted, not the index into the table.
+--- (To remove an item at a particular index, use DELI instead).
+--- DEL returns the deleted item, or returns no value when nothing was deleted.
+---
+--- @param tbl table
+--- @param val any value to be deleted
+function del(tbl, val)
+end
+
+--- Like DEL(), but remove the item from table TBL at index I When I is not given, the last element of the table is removed and returned.
+---
+--- @param tbl table
+--- @param i number index, optional
+function deli(tbl, i)
 end
 
 --- Special system command, where CMD_STR is a string:
@@ -315,6 +335,17 @@ end
 function rectfill(x0, y0, x1, y1, col)
 end
 
+--- Returns a random number n, where 0 <= n < x
+---
+--- If you want an integer, use flr(rnd(x)).
+---
+--- If x is an array-style table, return a random element between table[1]
+--- and table[#table].
+---
+--- @param x number|table
+function rnd(x)
+end
+
 --- Returns the cosine or sine of x, where 1.0 means a full turn.
 ---
 --- PICO-8's SIN() returns an inverted result to suit screenspace (where Y means "DOWN", as opposed to mathematical diagrams where Y typically means "UP").
@@ -366,6 +397,7 @@ function split(str, separator, convert_numbers)
 end
 
 --- Draw sprite N (0..255) at position X,Y
+---
 --- @param n number
 --- @param x number
 --- @param y number
@@ -376,6 +408,12 @@ end
 function spr(n, x, y, w, h, flip_x, flip_y)
 end
 
+--- Return the square root of x
+---
+--- @param x number
+--- @return number
+function sqrt(x)
+end
 
 --- Grab a substring from string str, from pos0 up to and including pos1.
 --- When POS1 is not specified, the remainder of the string is returned.
@@ -402,9 +440,6 @@ end
 --- @return number
 function t()
 end
-
-
-
 
 --- Convert VAL to a string.
 ---
