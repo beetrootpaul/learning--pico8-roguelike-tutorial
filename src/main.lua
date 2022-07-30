@@ -7,7 +7,13 @@ __debug__ = true
 local gs
 
 function _init()
+    -- set btnp(…) initial delay
+    poke(0x5f5c, 4)
+    -- set btnp(…) repeating delay
+    poke(0x5f5d, 4)
+
     validations.validate_stone_tablets()
+
     gs = new_game_state_gameplay {
         level_number = 1,
     }

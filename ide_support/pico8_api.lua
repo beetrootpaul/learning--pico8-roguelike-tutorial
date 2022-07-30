@@ -47,6 +47,18 @@ end
 --- repeats after 15 frames, returning true every 4 frames after that (at 30fps -- double
 --- that at 60fps). This can be used for things like menu navigation or grid-wise player
 --- movement.
+---
+--- The state that BTNP reads is reset at the start of each call to _UPDATE or _UPDATE60,
+--- so it is preferable to use BTNP from inside one of those functions.
+---
+--- Custom delays (in frames 30fps) can be set by poking the following memory addresses:
+---
+---  - POKE(0X5F5C, DELAY) -- SET THE INITIAL DELAY BEFORE REPEATING. 255 MEANS NEVER REPEAT.
+---
+---  - POKE(0X5F5D, DELAY) -- SET THE REPEATING DELAY.
+---
+--- In both cases, 0 can be used for the default behaviour (delays 15 and 4)
+---
 --- @param b number|string a glyph or from 0 to 5: left, right, up, down, button_o, button_x
 --- @param pl number player, from 0 to 7, optional, default: 0
 --- @return boolean whether button is pressed or not
