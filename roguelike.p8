@@ -18,6 +18,7 @@ __lua__
 #include src/gui/text_message.lua
 
 #include src/gameplay/animated_sprite.lua
+#include src/gameplay/damage_animation.lua
 #include src/gameplay/damage_indicator.lua
 #include src/gameplay/damage_indicators.lua
 #include src/gameplay/level.lua

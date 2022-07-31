@@ -37,6 +37,8 @@ function new_gs_player_turn(params)
             })
         end
 
+        monsters.remove_dead()
+
         player.animate()
         monsters.animate()
         damage_indicators.animate()

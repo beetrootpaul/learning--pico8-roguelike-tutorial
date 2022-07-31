@@ -40,6 +40,8 @@ function new_gs_monsters_movement(params)
             }
         end
 
+        monsters.remove_dead()
+
         player.animate()
         monsters.animate()
         damage_indicators.animate()
