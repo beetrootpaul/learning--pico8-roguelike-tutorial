@@ -7,11 +7,6 @@
 local current_gs, next_gs
 
 function _init()
-    u.set_btnp_delay {
-        initial = 4,
-        repeating = 4,
-    }
-
     validations.validate_stone_tablets()
 
     next_gs = new_gs_level_start {
@@ -30,6 +25,7 @@ function _update()
 end
 
 function _draw()
+    pal()
     cls()
     current_gs.draw()
 end

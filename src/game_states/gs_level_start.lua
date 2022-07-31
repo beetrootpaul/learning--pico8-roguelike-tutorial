@@ -9,6 +9,11 @@ function new_gs_level_start(params)
     local player
     local monsters
 
+    local ttl_max = 8
+    local ttl = ttl_max
+
+    local initialized = false
+
     local function init()
         level = new_level {
             level_number = level_number,
@@ -24,28 +29,36 @@ function new_gs_level_start(params)
         for monster_position in all(monster_positions) do
             monsters.add(monster_position)
         end
-    end
 
-    local initialized = false
+        initialized = true
+    end
 
     local gs = {}
 
     --
 
     function gs.update()
+        local next_gs = gs
+
         if not initialized then
             init()
+        end
+
+        ttl = max(0, ttl - 1)
+
+        if ttl <= 0 then
+            next_gs = new_gs_player_turn {
+                level = level,
+                player = player,
+                monsters = monsters,
+                damage_indicators = new_damage_indicators(),
+            }
         end
 
         player.animate()
         monsters.animate()
 
-        return new_gs_player_turn {
-            level = level,
-            player = player,
-            monsters = monsters,
-            damage_indicators = new_damage_indicators(),
-        }
+        return next_gs
     end
 
     --
@@ -54,6 +67,10 @@ function new_gs_level_start(params)
         level.draw()
         monsters.draw()
         player.draw()
+
+        u.darken_display_colors {
+            steps = ceil(4 * ttl / ttl_max)
+        }
 
         if __debug__ then
             u.print_with_outline("gs_level_start", 1, 1, u.colors.orange, u.colors.dark_blue)

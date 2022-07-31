@@ -43,8 +43,12 @@ function new_gs_monsters_movement(params)
 
         monsters.remove_dead()
         if player.is_dead() then
-            next_gs = new_gs_game_over {
-                level_number = 1,
+            next_gs = new_gs_level_end {
+                level = level,
+                player = player,
+                monsters = monsters,
+                damage_indicators = damage_indicators,
+                next_level_number = nil,
             }
         end
 
