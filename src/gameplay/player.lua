@@ -48,29 +48,26 @@ function new_player(params)
 
     --
 
-    function p.walk(direction)
-        if not direction then
+    function p.walk_to(position)
+        if x_tile == position.x_tile and y_tile == position.y_tile then
             return
         end
 
         audio.sfx(a.sounds.sfx_walk)
 
-        if direction.x > 0 then
+        if position.x_tile > x_tile then
             is_facing_left = false
-        elseif direction.x < 0 then
+        elseif position.x_tile < x_tile then
             is_facing_left = true
         end
 
-        local next_x_tile = x_tile + direction.x
-        local next_y_tile = y_tile + direction.y
-
         movement = new_movement_walk {
-            start_x_tile_offset = x_tile - next_x_tile,
-            start_y_tile_offset = y_tile - next_y_tile,
+            start_x_tile_offset = x_tile - position.x_tile,
+            start_y_tile_offset = y_tile - position.y_tile,
         }
 
-        x_tile = next_x_tile
-        y_tile = next_y_tile
+        x_tile = position.x_tile
+        y_tile = position.y_tile
     end
 
     --
@@ -95,14 +92,14 @@ function new_player(params)
 
     --
 
-    function p.update()
-        animated_walk.advance_1_frame()
+    function p.animate()
+        animated_walk.animate()
 
         if movement then
             if movement.has_finished() then
                 movement = nil
             else
-                movement.advance_1_frame()
+                movement.animate()
             end
         end
     end
@@ -110,6 +107,10 @@ function new_player(params)
     --
 
     function p.draw(opts)
+        if not opts then
+            opts = {}
+        end
+
         if opts.dim_colors then
             pal(a.colors.template, u.colors.violet_grey)
         else

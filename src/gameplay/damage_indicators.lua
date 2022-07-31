@@ -17,12 +17,12 @@ function new_damage_indicators()
 
     --
 
-    function dii.advance_1_frame()
+    function dii.animate()
         for indicator in all(list) do
             if indicator.has_finished() then
                 del(list, indicator)
             else
-                indicator.advance_1_frame()
+                indicator.animate()
             end
         end
     end
@@ -30,6 +30,10 @@ function new_damage_indicators()
     --
 
     function dii.draw(opts)
+        if not opts then
+            opts = {}
+        end
+
         for indicator in all(list) do
             indicator.draw {
                 dim_colors = opts.dim_colors,

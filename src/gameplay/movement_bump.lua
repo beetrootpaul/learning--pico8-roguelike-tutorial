@@ -34,7 +34,7 @@ function new_movement_bump(params)
 
     --
 
-    function mb.advance_1_frame()
+    function mb.animate()
         x_offset = x_offset + direction_x * speed
         if x_offset * sgn(x_offset_max) > x_offset_max * sgn(x_offset_max) then
             x_offset = x_offset_max

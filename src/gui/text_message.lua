@@ -19,7 +19,7 @@ function new_text_message(params)
 
     --
 
-    function tm.advance_1_frame()
+    function tm.animate()
         if state == "expanding" then
             if frame_counter < expand_length_frames then
                 frame_counter = frame_counter + 1

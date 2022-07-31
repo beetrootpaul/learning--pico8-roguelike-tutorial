@@ -3,7 +3,9 @@
 -- -- -- -- -- -- --
 
 function new_level(params)
-    local map_position = params.map_position
+    local level_number = params.level_number
+
+    map_position = a.levels[level_number].map_position
 
     local function to_map_xy(position)
         local map_x = map_position.x_tile + position.x_tile
@@ -27,6 +29,12 @@ function new_level(params)
     u.reload_map_from_cart()
 
     local l = {}
+
+    --
+
+    function l.next_level_number()
+        return u.next_table_index(level_number, #a.levels)
+    end
 
     --
 
@@ -144,6 +152,10 @@ function new_level(params)
     --
 
     function l.draw(opts)
+        if not opts then
+            opts = {}
+        end
+
         if opts.dim_colors then
             pal(u.colors.dark_grey, u.colors.dark_blue)
             pal(u.colors.light_grey, u.colors.dark_blue)

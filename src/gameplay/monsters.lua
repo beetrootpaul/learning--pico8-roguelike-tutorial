@@ -96,12 +96,18 @@ function new_monsters()
 
     --
 
-    function mm.update()
+    function mm.animate()
+        for monster in all(list) do
+            monster.animate()
+        end
+    end
+
+    --
+
+    function mm.remove_dead()
         for monster in all(list) do
             if monster.is_dead() then
                 del(list, monster)
-            else
-                monster.update()
             end
         end
     end
@@ -109,6 +115,10 @@ function new_monsters()
     --
 
     function mm.draw(opts)
+        if not opts then
+            opts = {}
+        end
+
         for monster in all(list) do
             monster.draw {
                 dim_colors = opts.dim_colors,

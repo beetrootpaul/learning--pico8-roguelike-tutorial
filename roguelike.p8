@@ -9,7 +9,11 @@ __lua__
 #include src/global/validations.lua
 #include src/global/audio.lua
 
-#include src/game_states/game_state_gameplay.lua
+#include src/game_states/gs_level_start.lua
+#include src/game_states/gs_monsters_movement.lua
+#include src/game_states/gs_player_movement.lua
+#include src/game_states/gs_player_turn.lua
+#include src/game_states/gs_reading_stone_tablet.lua
 
 #include src/gui/text_message.lua
 

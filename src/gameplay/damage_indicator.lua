@@ -24,7 +24,7 @@ function new_damage_indicator(params)
 
     --
 
-    function di.advance_1_frame()
+    function di.animate()
         if ttl > ttl_stop then
             y = y - 1
         end

@@ -68,14 +68,14 @@ function new_monster(params)
 
     --
 
-    function m.update()
-        animated_walk.advance_1_frame()
+    function m.animate()
+        animated_walk.animate()
 
         if movement then
             if movement.has_finished() then
                 movement = nil
             else
-                movement.advance_1_frame()
+                movement.animate()
             end
         end
     end

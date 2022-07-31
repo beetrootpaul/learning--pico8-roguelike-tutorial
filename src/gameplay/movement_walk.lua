@@ -29,7 +29,7 @@ function new_movement_walk(params)
 
     --
 
-    function mw.advance_1_frame()
+    function mw.animate()
         x_offset = x_offset - sgn(start_x_offset) * speed
         if x_offset * sgn(start_x_offset) < 0 then
             x_offset = 0
