@@ -3,12 +3,17 @@
 -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function new_gs_reading_stone_tablet(params)
+    local player_health = params.player_health
     local level = params.level
     local player = params.player
     local monsters = params.monsters
     local damage_indicators = params.damage_indicators
     local buffered_button = params.buffered_button
     local tablet_position = params.tablet_position
+
+    local health_display = new_health_display {
+        health = player_health,
+    }
 
     local map_x, map_y = level.to_map_xy(tablet_position)
     local text_message = new_text_message {
@@ -26,6 +31,7 @@ function new_gs_reading_stone_tablet(params)
             text_message.collapse()
         elseif text_message.has_collapsed() then
             next_gs = new_gs_monsters_movement {
+                player_health = player_health,
                 level = level,
                 player = player,
                 monsters = monsters,
@@ -56,6 +62,9 @@ function new_gs_reading_stone_tablet(params)
             dim_colors = true,
         }
         damage_indicators.draw {
+            dim_colors = true,
+        }
+        health_display.draw {
             dim_colors = true,
         }
 

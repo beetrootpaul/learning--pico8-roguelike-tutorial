@@ -52,8 +52,38 @@ u.buttons_to_directions = {
     [u.buttons.d] = { x = 0, y = 1 },
 }
 
+u.colors_to_darker_ones = {
+    [u.colors.black] = u.colors.black,
+    [u.colors.dark_blue] = u.colors.black,
+    [u.colors.purple] = u.colors.dark_blue,
+    [u.colors.dark_green] = u.colors.dark_blue,
+    [u.colors.brown] = u.colors.purple,
+    [u.colors.dark_grey] = u.colors.dark_blue,
+    [u.colors.light_grey] = u.colors.violet_grey,
+    [u.colors.white] = u.colors.light_grey,
+    [u.colors.red] = u.colors.brown,
+    [u.colors.orange] = u.colors.brown,
+    [u.colors.yellow] = u.colors.orange,
+    [u.colors.lime] = u.colors.dark_green,
+    [u.colors.blue] = u.colors.violet_grey,
+    [u.colors.violet_grey] = u.colors.dark_blue,
+    [u.colors.pink] = u.colors.violet_grey,
+    [u.colors.salmon] = u.colors.pink,
+}
+
 function u.boolean_changing_every_nth_second(n)
     return ceil(sin(time() * 0.5 / n) / 2) == 1
+end
+
+function u.darken_display_colors(params)
+    pal()
+    for _, color in pairs(u.colors) do
+        local new_color = color
+        for _ = 1, params.steps do
+            new_color = u.colors_to_darker_ones[new_color]
+        end
+        pal(color, new_color, 1)
+    end
 end
 
 function u.measure_text_width(text)

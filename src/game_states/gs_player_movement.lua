@@ -3,11 +3,16 @@
 -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function new_gs_player_movement(params)
+    local player_health = params.player_health
     local level = params.level
     local player = params.player
     local monsters = params.monsters
     local damage_indicators = params.damage_indicators
     local player_direction = params.player_direction
+
+    local health_display = new_health_display {
+        health = player_health,
+    }
 
     local buffered_button
     local stone_tablet_to_read_position
@@ -55,8 +60,13 @@ function new_gs_player_movement(params)
             end
 
             if level.is_level_exit(player.position()) then
-                next_gs = new_gs_level_start {
-                    level_number = level.next_level_number(),
+                next_gs = new_gs_level_end {
+                    player_health = player_health,
+                    level = level,
+                    player = player,
+                    monsters = monsters,
+                    damage_indicators = damage_indicators,
+                    next_level_number = level.next_level_number(),
                 }
             end
 
@@ -64,6 +74,7 @@ function new_gs_player_movement(params)
         elseif phase == "execution" and not player.is_moving() then
             if stone_tablet_to_read_position then
                 next_gs = new_gs_reading_stone_tablet {
+                    player_health = player_health,
                     level = level,
                     player = player,
                     monsters = monsters,
@@ -73,6 +84,7 @@ function new_gs_player_movement(params)
                 }
             else
                 next_gs = new_gs_monsters_movement {
+                    player_health = player_health,
                     level = level,
                     player = player,
                     monsters = monsters,
@@ -84,8 +96,13 @@ function new_gs_player_movement(params)
 
         monsters.remove_dead()
         if player.is_dead() then
-            next_gs = new_gs_game_over {
-                level_number = 1,
+            next_gs = new_gs_level_end {
+                player_health = player_health,
+                level = level,
+                player = player,
+                monsters = monsters,
+                damage_indicators = damage_indicators,
+                next_level_number = nil,
             }
         end
 
@@ -103,6 +120,8 @@ function new_gs_player_movement(params)
         monsters.draw()
         player.draw()
         damage_indicators.draw()
+
+        health_display.draw()
 
         if __debug__ then
             u.print_with_outline("gs_player_movement", 1, 1, u.colors.lime, u.colors.dark_blue)

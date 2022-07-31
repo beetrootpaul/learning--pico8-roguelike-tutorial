@@ -5,6 +5,7 @@
 function new_player(params)
     local x_tile = params.position.x_tile
     local y_tile = params.position.y_tile
+    local health = params.health
 
     local is_facing_left = false
 
@@ -21,16 +22,20 @@ function new_player(params)
     local movement
     local damage_animation
 
-    local health = 5
-
     local p = {}
+
+    --
+
+    function p.health()
+        return health
+    end
 
     --
 
     function p.receive_damage()
         audio.sfx(a.sounds.sfx_hit_player)
 
-        health = max(0, health - 1)
+        health.decrease()
 
         damage_animation = new_damage_animation {
             default_color = u.colors.yellow
@@ -40,7 +45,7 @@ function new_player(params)
     --
 
     function p.is_defeated()
-        return health <= 0
+        return health.is_empty()
     end
 
     --
@@ -49,7 +54,7 @@ function new_player(params)
         if damage_animation and not damage_animation.has_finished() then
             return false
         end
-        return health <= 0
+        return health.is_empty()
     end
 
     --
