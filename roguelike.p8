@@ -9,6 +9,7 @@ __lua__
 #include src/global/validations.lua
 #include src/global/audio.lua
 
+#include src/game_states/gs_game_over.lua
 #include src/game_states/gs_level_start.lua
 #include src/game_states/gs_monsters_movement.lua
 #include src/game_states/gs_player_movement.lua

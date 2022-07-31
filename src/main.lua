@@ -34,9 +34,6 @@ function _draw()
     current_gs.draw()
 end
 
--- TODO: game over screen
--- TODO: game restart after game over
-
 -- TODO: SFX on level exit
 
 -- TODO: make damage indicators sequenced one after another when multiple monsters hit player at the same time
