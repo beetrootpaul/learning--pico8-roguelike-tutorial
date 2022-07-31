@@ -102,6 +102,13 @@ function new_game_state_gameplay(params)
 
         player.update()
 
+        if not monsters.is_any_monster_moving() then
+            monsters.walk_to_player {
+                player = player,
+                level = level,
+            }
+        end
+
         monsters.update()
 
         damage_indicators.advance_1_frame()

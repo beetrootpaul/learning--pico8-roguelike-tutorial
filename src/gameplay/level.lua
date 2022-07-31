@@ -19,6 +19,11 @@ function new_level(params)
         end
     end
 
+    local function is_walkable(position)
+        local sprite = mget(to_map_xy(position))
+        return fget(sprite, a.sprite_flags.walkable)
+    end
+
     u.reload_map_from_cart()
 
     local l = {}
@@ -64,8 +69,7 @@ function new_level(params)
     --
 
     function l.is_walkable(position)
-        local sprite = mget(to_map_xy(position))
-        return fget(sprite, a.sprite_flags.walkable)
+        return is_walkable(position)
     end
 
     --
@@ -116,6 +120,25 @@ function new_level(params)
         audio.sfx(a.sounds.sfx_open_chest)
         local map_x, map_y = to_map_xy(position)
         mset(map_x, map_y, a.sprites.chest_open)
+    end
+
+    --
+
+    function l.walkable_positions_around(position)
+        local walkable_positions = {}
+        for _, direction in pairs(u.buttons_to_directions) do
+            local next_position = {
+                x_tile = position.x_tile + direction.x,
+                y_tile = position.y_tile + direction.y,
+            }
+            if is_walkable(next_position) then
+                add(walkable_positions, {
+                    x_tile = position.x_tile + direction.x,
+                    y_tile = position.y_tile + direction.y,
+                })
+            end
+        end
+        return walkable_positions
     end
 
     --

@@ -31,9 +31,6 @@ end
 
 -- TODO: mob color flash (several frames) to indicate being hit
 -- TODO: mob not disappearing immediately on 0 HP, but after delay (but NOT hittable again!)
--- TODO: mobs move to tiles closer to player (by comparing distance)
--- TODO: mobs do not move onto walls
--- TODO: (extra from me) mobs do not move to worse tile, if there are only worse neighbours, but stay on a tile they are
 -- TODO: mob next to player bumps on it and attack
 -- TODO: SFX for mob attacking the player
 -- TODO: draw monsters first on their turn and second on player turn

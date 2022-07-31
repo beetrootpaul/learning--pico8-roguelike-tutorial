@@ -16,6 +16,8 @@ function new_monster(params)
         },
     }
 
+    local movement
+
     local health = 2
 
     local m = {}
@@ -44,8 +46,38 @@ function new_monster(params)
 
     --
 
+    function m.is_moving()
+        return movement
+    end
+
+    --
+
+    function m.walk_to(position)
+        if x_tile == position.x_tile and y_tile == position.y_tile then
+            return
+        end
+
+        movement = new_movement_walk {
+            start_x_tile_offset = x_tile - position.x_tile,
+            start_y_tile_offset = y_tile - position.y_tile,
+        }
+
+        x_tile = position.x_tile
+        y_tile = position.y_tile
+    end
+
+    --
+
     function m.update()
         animated_walk.advance_1_frame()
+
+        if movement then
+            if movement.has_finished() then
+                movement = nil
+            else
+                movement.advance_1_frame()
+            end
+        end
     end
 
     --
@@ -58,10 +90,11 @@ function new_monster(params)
         end
         palt(u.colors.black, false)
 
+        local offset = movement and movement.offset() or { x = 0, y = 0 }
         spr(
             animated_walk.current_sprite(),
-            x_tile * u.tile_size, -- + offset.x,
-            y_tile * u.tile_size -- + offset.y
+            x_tile * u.tile_size + offset.x,
+            y_tile * u.tile_size + offset.y
         )
 
         pal()
