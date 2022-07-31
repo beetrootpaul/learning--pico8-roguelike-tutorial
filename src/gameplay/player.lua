@@ -19,8 +19,39 @@ function new_player(params)
     }
 
     local movement
+    local damage_animation
+
+    local health = 5
 
     local p = {}
+
+    --
+
+    --- @return boolean whether damage happened or not
+    function p.receive_damage()
+        if health <= 0 then
+            return false
+        end
+
+        audio.sfx(a.sounds.sfx_hit_player)
+
+        health = max(0, health - 1)
+
+        damage_animation = new_damage_animation {
+            default_color = u.colors.yellow
+        }
+
+        return true
+    end
+
+    --
+
+    function p.is_dead()
+        if damage_animation and not damage_animation.has_finished() then
+            return false
+        end
+        return health <= 0
+    end
 
     --
 
@@ -102,6 +133,14 @@ function new_player(params)
                 movement.animate()
             end
         end
+
+        if damage_animation then
+            if damage_animation.has_finished() then
+                damage_animation = nil
+            else
+                damage_animation.animate()
+            end
+        end
     end
 
     --
@@ -113,6 +152,8 @@ function new_player(params)
 
         if opts.dim_colors then
             pal(a.colors.template, u.colors.violet_grey)
+        elseif damage_animation then
+            pal(a.colors.template, damage_animation.current_color())
         else
             pal(a.colors.template, u.colors.yellow)
         end

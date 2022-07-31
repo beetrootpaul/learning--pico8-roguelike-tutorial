@@ -82,6 +82,11 @@ function new_gs_player_movement(params)
         end
 
         monsters.remove_dead()
+        if player.is_dead() then
+            next_gs = new_gs_level_start {
+                level_number = 1,
+            }
+        end
 
         player.animate()
         monsters.animate()

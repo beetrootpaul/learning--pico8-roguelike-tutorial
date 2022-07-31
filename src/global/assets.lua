@@ -14,10 +14,11 @@ a = {
         sfx_walk = { track = 2, priority = 0 },
         sfx_bump = { track = 3, priority = 1 },
         sfx_hit_monster = { track = 6, priority = 2 },
-        sfx_break_vase = { track = 5, priority = 3 },
-        sfx_open_door = { track = 0, priority = 4 },
-        sfx_open_chest = { track = 1, priority = 5 },
-        sfx_read_stone_tablet = { track = 4, priority = 6 },
+        sfx_hit_player = { track = 7, priority = 3 },
+        sfx_break_vase = { track = 5, priority = 4 },
+        sfx_open_door = { track = 0, priority = 5 },
+        sfx_open_chest = { track = 1, priority = 6 },
+        sfx_read_stone_tablet = { track = 4, priority = 7 },
     },
     sprite_flags = {
         walkable = 0

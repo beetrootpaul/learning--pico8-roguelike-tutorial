@@ -25,15 +25,6 @@ function new_monster(params)
 
     --
 
-    function m.position()
-        return {
-            x_tile = x_tile,
-            y_tile = y_tile,
-        }
-    end
-
-    --
-
     --- @return boolean whether damage happened or not
     function m.receive_damage()
         if health <= 0 then
@@ -62,6 +53,15 @@ function new_monster(params)
 
     --
 
+    function m.position()
+        return {
+            x_tile = x_tile,
+            y_tile = y_tile,
+        }
+    end
+
+    --
+
     function m.is_moving()
         return movement
     end
@@ -81,6 +81,19 @@ function new_monster(params)
         x_tile = position.x_tile
         y_tile = position.y_tile
     end
+
+    --
+
+    function m.bump(direction)
+        if not direction then
+            return
+        end
+
+        movement = new_movement_bump {
+            direction = direction,
+        }
+    end
+
 
     --
 
