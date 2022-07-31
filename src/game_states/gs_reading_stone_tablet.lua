@@ -3,6 +3,7 @@
 -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function new_gs_reading_stone_tablet(params)
+    local status_area = params.status_area
     local level = params.level
     local player = params.player
     local monsters = params.monsters
@@ -26,6 +27,7 @@ function new_gs_reading_stone_tablet(params)
             text_message.collapse()
         elseif text_message.has_collapsed() then
             next_gs = new_gs_monsters_movement {
+                status_area = status_area,
                 level = level,
                 player = player,
                 monsters = monsters,
@@ -58,6 +60,9 @@ function new_gs_reading_stone_tablet(params)
         damage_indicators.draw {
             dim_colors = true,
         }
+        status_area.draw(player.health(), {
+            dim_colors = true,
+        })
 
         text_message.draw()
 

@@ -30,6 +30,7 @@ function new_gs_game_over()
                 fade_out_ttl = max(0, fade_out_ttl - 1)
             else
                 return new_gs_level_start {
+                    status_area = new_status_area(),
                     level_number = 1,
                 }
             end

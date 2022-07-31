@@ -42,6 +42,8 @@ a = {
         chest_open = 46,
         chest_closed = 45,
         level_exit = 15,
+        --
+        status_heart = 8,
     },
     stone_tablet_texts = {
         ["4-2"] = { "you are not", "welcome here" },

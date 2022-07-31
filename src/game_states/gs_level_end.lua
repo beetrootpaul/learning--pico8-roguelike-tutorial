@@ -3,6 +3,7 @@
 -- -- -- -- -- -- -- -- -- -- --
 
 function new_gs_level_end(params)
+    local status_area = params.status_area
     local level = params.level
     local player = params.player
     local monsters = params.monsters
@@ -24,6 +25,7 @@ function new_gs_level_end(params)
         if ttl <= 0 then
             if next_level_number then
                 next_gs = new_gs_level_start {
+                    status_area = status_area,
                     level_number = next_level_number,
                 }
             else
@@ -47,6 +49,8 @@ function new_gs_level_end(params)
         player.draw()
         monsters.draw()
         damage_indicators.draw()
+
+        status_area.draw(player.health())
 
         u.darken_display_colors {
             steps = ceil(4 * (1 - ttl / ttl_max))

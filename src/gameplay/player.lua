@@ -21,9 +21,19 @@ function new_player(params)
     local movement
     local damage_animation
 
-    local health = 5
+    local health_max = 5
+    local health = health_max
 
     local p = {}
+
+    --
+
+    function p.health()
+        return {
+            current = health,
+            max = health_max,
+        }
+    end
 
     --
 
