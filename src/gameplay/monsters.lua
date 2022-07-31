@@ -64,9 +64,7 @@ function new_monsters()
     function mm.walk_to_player(p)
         local player_position = p.player.position()
 
-        local occupied_positions = {
-            [player_position.x_tile .. "-" .. player_position.y_tile] = true,
-        }
+        local occupied_positions = {}
 
         for monster in all(list) do
             local monster_position = monster.position()
@@ -88,9 +86,19 @@ function new_monsters()
                 available_positions = available_positions,
                 target_position = player_position
             }
-            occupied_positions[monster_position.x_tile .. "-" .. monster_position.y_tile] = false
-            occupied_positions[next_position.x_tile .. "-" .. next_position.y_tile] = true
-            monster.walk_to(next_position)
+            if next_position.x_tile == player_position.x_tile and next_position.y_tile == player_position.y_tile then
+                monster.bump {
+                    x = (next_position.x_tile > monster_position.x_tile) and 1 or ((next_position.x_tile < monster_position.x_tile) and -1 or 0),
+                    y = (next_position.y_tile > monster_position.y_tile) and 1 or ((next_position.y_tile < monster_position.y_tile) and -1 or 0),
+                }
+                if p.player.receive_damage() then
+                    p.damage_indicators.add_above(player_position)
+                end
+            else
+                occupied_positions[monster_position.x_tile .. "-" .. monster_position.y_tile] = false
+                occupied_positions[next_position.x_tile .. "-" .. next_position.y_tile] = true
+                monster.walk_to(next_position)
+            end
         end
     end
 

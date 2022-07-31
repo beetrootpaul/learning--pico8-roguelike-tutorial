@@ -28,13 +28,20 @@ function new_gs_player_turn(params)
         end
 
         if direction then
-            next_gs = new_gs_player_movement({
+            next_gs = new_gs_player_movement {
                 level = level,
                 player = player,
                 monsters = monsters,
                 damage_indicators = damage_indicators,
                 player_direction = direction,
-            })
+            }
+        end
+
+        monsters.remove_dead()
+        if player.is_dead() then
+            next_gs = new_gs_game_over {
+                level_number = 1,
+            }
         end
 
         player.animate()

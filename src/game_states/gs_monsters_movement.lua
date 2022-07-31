@@ -28,6 +28,7 @@ function new_gs_monsters_movement(params)
             monsters.walk_to_player {
                 player = player,
                 level = level,
+                damage_indicators = damage_indicators,
             }
             phase = "execution"
         elseif phase == "execution" and not monsters.is_any_monster_moving() then
@@ -37,6 +38,13 @@ function new_gs_monsters_movement(params)
                 monsters = monsters,
                 damage_indicators = damage_indicators,
                 buffered_button = buffered_button,
+            }
+        end
+
+        monsters.remove_dead()
+        if player.is_dead() then
+            next_gs = new_gs_game_over {
+                level_number = 1,
             }
         end
 

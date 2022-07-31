@@ -33,8 +33,9 @@ function new_gs_player_movement(params)
             local monster = monsters.get_monster_on(next_position)
             if monster then
                 player.bump(player_direction)
-                monster.receive_damage()
-                damage_indicators.add_above(next_position)
+                if monster.receive_damage() then
+                    damage_indicators.add_above(next_position)
+                end
             elseif level.is_walkable(next_position) then
                 player.walk_to(next_position)
             else
@@ -81,6 +82,11 @@ function new_gs_player_movement(params)
         end
 
         monsters.remove_dead()
+        if player.is_dead() then
+            next_gs = new_gs_game_over {
+                level_number = 1,
+            }
+        end
 
         player.animate()
         monsters.animate()

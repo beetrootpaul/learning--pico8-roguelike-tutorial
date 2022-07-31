@@ -34,16 +34,6 @@ function _draw()
     current_gs.draw()
 end
 
--- TODO: mob color flash (several frames) to indicate being hit
--- TODO: mob not disappearing immediately on 0 HP, but after delay (but NOT hittable again!)
--- TODO: mob next to player bumps on it and attack
--- TODO: SFX for mob attacking the player
-
--- TODO: death on 0 HP
--- TODO: game over screen
--- TODO: game over screen shown after animation ended (so the reason was visible)
--- TODO: game restart after game over
-
--- TODO: defeated mob disappears (flashes?) over short time
-
 -- TODO: SFX on level exit
+
+-- TODO: make damage indicators sequenced one after another when multiple monsters hit player at the same time
