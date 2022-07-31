@@ -19,18 +19,13 @@ function new_monster(params)
     local movement
     local damage_animation
 
-    local health = 2
+    local health = 1
 
     local m = {}
 
     --
 
-    --- @return boolean whether damage happened or not
     function m.receive_damage()
-        if health <= 0 then
-            return false
-        end
-
         audio.sfx(a.sounds.sfx_hit_monster)
 
         health = max(0, health - 1)
@@ -38,8 +33,12 @@ function new_monster(params)
         damage_animation = new_damage_animation {
             default_color = u.colors.yellow
         }
+    end
 
-        return true
+    --
+
+    function m.is_defeated()
+        return health <= 0
     end
 
     --

@@ -33,7 +33,8 @@ function new_gs_player_movement(params)
             local monster = monsters.get_monster_on(next_position)
             if monster then
                 player.bump(player_direction)
-                if monster.receive_damage() then
+                if not monster.is_defeated() then
+                    monster.receive_damage()
                     damage_indicators.add_above(next_position)
                 end
             elseif level.is_walkable(next_position) then

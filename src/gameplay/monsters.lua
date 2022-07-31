@@ -72,32 +72,35 @@ function new_monsters()
         end
 
         for monster in all(list) do
-            local monster_position = monster.position()
+            if not monster.is_defeated() then
+                local monster_position = monster.position()
 
-            local walkable_positions = p.level.walkable_positions_around(monster_position)
-            local available_positions = { monster_position }
-            for wp in all(walkable_positions) do
-                if not occupied_positions[wp.x_tile .. "-" .. wp.y_tile] then
-                    add(available_positions, wp)
+                local walkable_positions = p.level.walkable_positions_around(monster_position)
+                local available_positions = { monster_position }
+                for wp in all(walkable_positions) do
+                    if not occupied_positions[wp.x_tile .. "-" .. wp.y_tile] then
+                        add(available_positions, wp)
+                    end
                 end
-            end
 
-            local next_position = closest_position {
-                available_positions = available_positions,
-                target_position = player_position
-            }
-            if next_position.x_tile == player_position.x_tile and next_position.y_tile == player_position.y_tile then
-                monster.bump {
-                    x = (next_position.x_tile > monster_position.x_tile) and 1 or ((next_position.x_tile < monster_position.x_tile) and -1 or 0),
-                    y = (next_position.y_tile > monster_position.y_tile) and 1 or ((next_position.y_tile < monster_position.y_tile) and -1 or 0),
+                local next_position = closest_position {
+                    available_positions = available_positions,
+                    target_position = player_position
                 }
-                if p.player.receive_damage() then
-                    p.damage_indicators.add_above(player_position)
+                if next_position.x_tile == player_position.x_tile and next_position.y_tile == player_position.y_tile then
+                    monster.bump {
+                        x = (next_position.x_tile > monster_position.x_tile) and 1 or ((next_position.x_tile < monster_position.x_tile) and -1 or 0),
+                        y = (next_position.y_tile > monster_position.y_tile) and 1 or ((next_position.y_tile < monster_position.y_tile) and -1 or 0),
+                    }
+                    if not p.player.is_defeated() then
+                        p.player.receive_damage()
+                        p.damage_indicators.add_above(next_position)
+                    end
+                else
+                    occupied_positions[monster_position.x_tile .. "-" .. monster_position.y_tile] = false
+                    occupied_positions[next_position.x_tile .. "-" .. next_position.y_tile] = true
+                    monster.walk_to(next_position)
                 end
-            else
-                occupied_positions[monster_position.x_tile .. "-" .. monster_position.y_tile] = false
-                occupied_positions[next_position.x_tile .. "-" .. next_position.y_tile] = true
-                monster.walk_to(next_position)
             end
         end
     end

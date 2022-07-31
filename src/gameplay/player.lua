@@ -27,12 +27,7 @@ function new_player(params)
 
     --
 
-    --- @return boolean whether damage happened or not
     function p.receive_damage()
-        if health <= 0 then
-            return false
-        end
-
         audio.sfx(a.sounds.sfx_hit_player)
 
         health = max(0, health - 1)
@@ -40,8 +35,12 @@ function new_player(params)
         damage_animation = new_damage_animation {
             default_color = u.colors.yellow
         }
+    end
 
-        return true
+    --
+
+    function p.is_defeated()
+        return health <= 0
     end
 
     --

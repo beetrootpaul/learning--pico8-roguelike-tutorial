@@ -17,12 +17,14 @@ function new_gs_player_turn(params)
         local next_gs = gs
 
         local direction
-        if buffered_button then
-            direction = u.buttons_to_directions[buffered_button]
-        else
-            for button, _ in pairs(u.buttons_to_directions) do
-                if btnp(button) then
-                    direction = u.buttons_to_directions[button]
+        if not player.is_defeated() then
+            if buffered_button then
+                direction = u.buttons_to_directions[buffered_button]
+            else
+                for button, _ in pairs(u.buttons_to_directions) do
+                    if btnp(button) then
+                        direction = u.buttons_to_directions[button]
+                    end
                 end
             end
         end
