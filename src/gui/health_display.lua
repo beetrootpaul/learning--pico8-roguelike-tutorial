@@ -1,17 +1,15 @@
 -- -- -- -- -- -- -- --
--- gui/status_area   --
+-- gui/health_display   --
 -- -- -- -- -- -- -- --
 
-function new_status_area()
+function new_health_display(params)
+    local health = params.health
 
-    local function draw_heart(x, y, color)
-    end
-
-    local sa = {}
+    local hd = {}
 
     --
 
-    function sa.draw(health, opts)
+    function hd.draw(opts)
         if not opts then
             opts = {}
         end
@@ -28,12 +26,11 @@ function new_status_area()
         line(1, 6, 29, 6, u.colors.dark_grey)
         line(30, 1, 30, 6, u.colors.dark_grey)
 
-        for i = 0, health.max - 1 do
-
+        for i = 0, health.max() - 1 do
             if opts.dim_colors then
-                pal(a.colors.template, (i < health.current) and u.colors.black or u.colors.dark_blue)
-                else
-                pal(a.colors.template, (i < health.current) and u.colors.purple or u.colors.violet_grey)
+                pal(a.colors.template, (i < health.current()) and u.colors.black or u.colors.dark_blue)
+            else
+                pal(a.colors.template, (i < health.current()) and u.colors.purple or u.colors.violet_grey)
             end
             spr(a.sprites.status_heart, 1 + i * 6, 1)
         end
@@ -43,5 +40,5 @@ function new_status_area()
 
     --
 
-    return sa
+    return hd
 end

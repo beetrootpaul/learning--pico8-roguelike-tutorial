@@ -17,13 +17,14 @@ __lua__
 #include src/game_states/gs_player_turn.lua
 #include src/game_states/gs_reading_stone_tablet.lua
 
-#include src/gui/status_area.lua
+#include src/gui/health_display.lua
 #include src/gui/text_message.lua
 
 #include src/gameplay/animated_sprite.lua
 #include src/gameplay/damage_animation.lua
 #include src/gameplay/damage_indicator.lua
 #include src/gameplay/damage_indicators.lua
+#include src/gameplay/health.lua
 #include src/gameplay/level.lua
 #include src/gameplay/monster.lua
 #include src/gameplay/monsters.lua

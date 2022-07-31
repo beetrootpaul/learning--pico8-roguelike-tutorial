@@ -3,12 +3,16 @@
 -- -- -- -- -- -- -- -- -- -- --
 
 function new_gs_player_turn(params)
-    local status_area = params.status_area
+    local player_health = params.player_health
     local level = params.level
     local player = params.player
     local monsters = params.monsters
     local damage_indicators = params.damage_indicators
     local buffered_button = params.buffered_button
+
+    local health_display = new_health_display {
+        health = player_health,
+    }
 
     local gs = {}
 
@@ -32,7 +36,7 @@ function new_gs_player_turn(params)
 
         if direction then
             next_gs = new_gs_player_movement {
-                status_area = status_area,
+                player_health = player_health,
                 level = level,
                 player = player,
                 monsters = monsters,
@@ -44,7 +48,7 @@ function new_gs_player_turn(params)
         monsters.remove_dead()
         if player.is_dead() then
             next_gs = new_gs_level_end {
-                status_area = status_area,
+                player_health = player_health,
                 level = level,
                 player = player,
                 monsters = monsters,
@@ -68,7 +72,7 @@ function new_gs_player_turn(params)
         player.draw()
         damage_indicators.draw()
 
-        status_area.draw(player.health())
+        health_display.draw()
 
         if __debug__ then
             u.print_with_outline("gs_player_turn", 1, 1, u.colors.dark_green, u.colors.dark_blue)

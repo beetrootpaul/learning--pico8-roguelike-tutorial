@@ -3,12 +3,16 @@
 -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function new_gs_monsters_movement(params)
-    local status_area = params.status_area
+    local player_health = params.player_health
     local level = params.level
     local player = params.player
     local monsters = params.monsters
     local damage_indicators = params.damage_indicators
     local buffered_button = params.buffered_button
+
+    local health_display = new_health_display {
+        health = player_health,
+    }
 
     local phase = "preparation"
 
@@ -34,7 +38,7 @@ function new_gs_monsters_movement(params)
             phase = "execution"
         elseif phase == "execution" and not monsters.is_any_monster_moving() then
             next_gs = new_gs_player_turn {
-                status_area = status_area,
+                player_health = player_health,
                 level = level,
                 player = player,
                 monsters = monsters,
@@ -46,7 +50,7 @@ function new_gs_monsters_movement(params)
         monsters.remove_dead()
         if player.is_dead() then
             next_gs = new_gs_level_end {
-                status_area = status_area,
+                player_health = player_health,
                 level = level,
                 player = player,
                 monsters = monsters,
@@ -70,7 +74,7 @@ function new_gs_monsters_movement(params)
         monsters.draw()
         damage_indicators.draw()
 
-        status_area.draw(player.health())
+        health_display.draw()
 
         if __debug__ then
             u.print_with_outline("gs_monsters_movement", 1, 1, u.colors.red, u.colors.dark_blue)

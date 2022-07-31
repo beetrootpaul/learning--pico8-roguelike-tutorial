@@ -10,7 +10,9 @@ function _init()
     validations.validate_stone_tablets()
 
     next_gs = new_gs_level_start {
-        status_area = new_status_area(),
+        player_health = new_health {
+            max = 5,
+        },
         level_number = 1,
     }
 end
