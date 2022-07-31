@@ -13,7 +13,7 @@ function new_animated_sprite(params)
 
     --
 
-    function as.advance_1_frame()
+    function as.animate()
         frame_counter = (frame_counter + 1) % loop_length_frames
     end
 

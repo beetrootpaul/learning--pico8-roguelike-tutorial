@@ -348,6 +348,19 @@ end
 function rectfill(x0, y0, x1, y1, col)
 end
 
+--- Same as MEMCPY, but copies from cart rom.
+---
+--- The code section ( >= 0x4300) is protected and can not be read.
+---
+--- If filename specified, load data from a separate cartridge. In this case, the cartridge must be local (BBS carts can not be read in this way).
+---
+--- @param dest_addr number
+--- @param source_addr number
+--- @param len number
+--- @param filename string optional
+function reload(dest_addr, source_addr, len, filename)
+end
+
 --- Returns a random number n, where 0 <= n < x
 ---
 --- If you want an integer, use flr(rnd(x)).
